@@ -38,7 +38,12 @@ class LeaveQuotaResource extends Resource
                         Forms\Components\Select::make('user_id')
                             ->label('Employee')
                             ->options(function () {
-                                return \App\Models\User::all()->pluck('username', 'id');
+                                return \App\Models\User::all()->mapWithKeys(function ($user) {
+                                    // Convert username to proper display name
+                                    // e.g., "ketut.dewi.laksmi" -> "Ketut Dewi Laksmi"
+                                    $displayName = ucwords(str_replace('.', ' ', $user->username));
+                                    return [$user->id => $displayName];
+                                });
                             })
                             ->searchable()
                             ->required()
@@ -47,7 +52,9 @@ class LeaveQuotaResource extends Resource
                                 if ($state) {
                                     $user = User::find($state);
                                     if ($user) {
-                                        $set('employee_name', $user->username);
+                                        // Set employee_name as proper display name
+                                        $displayName = ucwords(str_replace('.', ' ', $user->username));
+                                        $set('employee_name', $displayName);
                                     }
                                 }
                             })
@@ -56,9 +63,18 @@ class LeaveQuotaResource extends Resource
                                     ->orWhere('ms_email', 'like', "%{$search}%")
                                     ->limit(50)
                                     ->get()
-                                    ->pluck('username', 'id');
+                                    ->mapWithKeys(function ($user) {
+                                        $displayName = ucwords(str_replace('.', ' ', $user->username));
+                                        return [$user->id => $displayName];
+                                    });
                             })
-                            ->getOptionLabelUsing(fn($value) => \App\Models\User::find($value)?->username),
+                            ->getOptionLabelUsing(function ($value) {
+                                $user = \App\Models\User::find($value);
+                                if ($user) {
+                                    return ucwords(str_replace('.', ' ', $user->username));
+                                }
+                                return null;
+                            }),
 
                         Forms\Components\TextInput::make('employee_name')
                             ->label('Employee Name')
