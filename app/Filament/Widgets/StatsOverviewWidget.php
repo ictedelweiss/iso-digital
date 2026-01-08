@@ -1,0 +1,44 @@
+<?php
+
+namespace App\Filament\Widgets;
+
+use App\Models\HandoverForm;
+use App\Models\LeaveRequest;
+use App\Models\Meeting;
+use App\Models\PurchaseRequisition;
+use Filament\Widgets\StatsOverviewWidget as BaseWidget;
+use Filament\Widgets\StatsOverviewWidget\Stat;
+
+class StatsOverviewWidget extends BaseWidget
+{
+    protected static ?int $sort = 1;
+
+    protected function getStats(): array
+    {
+        return [
+            Stat::make('Meetings', Meeting::count())
+                ->description('Total meetings')
+                ->descriptionIcon('heroicon-m-calendar-days')
+                ->chart([7, 3, 4, 5, 6, 3, 5])
+                ->color('info'),
+
+            Stat::make('Purchase Requisitions', PurchaseRequisition::count())
+                ->description(PurchaseRequisition::where('status', 'Pending')->count() . ' pending approval')
+                ->descriptionIcon('heroicon-m-document-text')
+                ->chart([3, 5, 2, 8, 4, 6, 3])
+                ->color('success'),
+
+            Stat::make('Leave Requests', LeaveRequest::count())
+                ->description(LeaveRequest::where('status', 'Pending')->count() . ' pending')
+                ->descriptionIcon('heroicon-m-calendar')
+                ->chart([2, 4, 1, 5, 3, 2, 4])
+                ->color('warning'),
+
+            Stat::make('Handover Forms', HandoverForm::count())
+                ->description(HandoverForm::where('status', 'Pending')->count() . ' pending')
+                ->descriptionIcon('heroicon-m-arrow-path-rounded-square')
+                ->chart([1, 3, 2, 4, 2, 3, 1])
+                ->color('primary'),
+        ];
+    }
+}

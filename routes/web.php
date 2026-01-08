@@ -1,0 +1,35 @@
+<?php
+
+use App\Http\Controllers\Auth\MicrosoftController;
+use App\Http\Controllers\MeetingController;
+use App\Http\Controllers\MeetingPdfController;
+use Illuminate\Support\Facades\Route;
+
+Route::get('/', function () {
+    return redirect('/admin');
+});
+
+// Public Meeting Attendance Routes
+Route::prefix('meeting')->name('meeting.')->group(function () {
+    Route::get('/{meetingId}', [MeetingController::class, 'attend'])->name('attend');
+    Route::post('/{meetingId}/submit', [MeetingController::class, 'submitAttendance'])->name('submit');
+    Route::get('/{meetingId}/attendees', [MeetingController::class, 'getAttendees'])->name('attendees');
+    Route::get('/{meetingId}/pdf', [MeetingPdfController::class, 'generate'])->name('pdf');
+});
+
+// Microsoft 365 OAuth Routes
+Route::prefix('auth')->name('auth.')->group(function () {
+    Route::get('/microsoft', [MicrosoftController::class, 'redirect'])->name('microsoft');
+    Route::get('/microsoft/callback', [MicrosoftController::class, 'callback'])->name('microsoft.callback');
+});
+
+// Dedicated Approval Routes
+Route::get('/approval/{type}/{id}', [\App\Http\Controllers\ApprovalController::class, 'review'])->name('approval.review')->middleware('signed');
+Route::post('/approval/{type}/{id}', [\App\Http\Controllers\ApprovalController::class, 'submit'])->name('approval.submit')->middleware('signed');
+Route::get('/approval/done', [\App\Http\Controllers\ApprovalController::class, 'done'])->name('approval.done');
+
+// Purchase Requisition PDF
+Route::get('/admin/purchase-requisitions/{record}/pdf', [\App\Http\Controllers\PrPdfController::class, 'download'])->name('pr.pdf');
+Route::get('/admin/leave-requests/{record}/pdf', [\App\Http\Controllers\LeavePdfController::class, 'download'])->name('leave.pdf');
+Route::get('/admin/handover-forms/{record}/pdf', [\App\Http\Controllers\HandoverPdfController::class, 'download'])->name('handover.pdf');
+
