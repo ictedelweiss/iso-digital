@@ -41,6 +41,7 @@ class MicrosoftController extends Controller
                     $user->update([
                         'ms_id' => $microsoftUser->getId(),
                         'ms_email' => $microsoftUser->getEmail(),
+                        'display_name' => $microsoftUser->getName(), // Save M365 display name
                     ]);
                 } else {
                     // User not found - deny access

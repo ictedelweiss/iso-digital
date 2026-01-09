@@ -272,12 +272,9 @@
                     $isDianggarkan = in_array(strtolower($pr->budget_status), ['tersedia', 'terbatas', 'dianggarkan']);
                     $isBelum = in_array(strtolower($pr->budget_status), ['tidak tersedia', 'belum dianggarkan']);
                 @endphp
-                <div class="chk">
-                    <span class="chk-box">{{ $isDianggarkan ? '✓' : '' }}</span><strong>Dianggarkan</strong>
-                </div>
-                <div class="chk">
-                    <span class="chk-box">{{ $isBelum ? '✓' : '' }}</span><strong>Belum dianggarkan</strong>
-                </div>
+                <span class="chk-box">{{ $isDianggarkan ? '✓' : '' }}</span> : Dianggaran
+                <br>
+                <span class="chk-box">{{ $isBelum ? '✓' : '' }}</span> : Belum dianggaran
             </td>
         </tr>
     </table>

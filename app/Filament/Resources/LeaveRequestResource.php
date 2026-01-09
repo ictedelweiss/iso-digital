@@ -31,6 +31,28 @@ class LeaveRequestResource extends Resource
                     ->schema([
                         Forms\Components\TextInput::make('name')
                             ->label('Employee Name')
+                            ->default(function () {
+                                $user = Auth::user();
+                                if ($user) {
+                                    // Prioritize Microsoft 365 display name
+                                    if (!empty($user->display_name)) {
+                                        return $user->display_name;
+                                    }
+                                    // Fallback: Convert username to proper name
+                                    return ucwords(str_replace('.', ' ', $user->username));
+                                }
+                                return '';
+                            })
+                            ->disabled(function () {
+                                $user = Auth::user();
+                                // Editable only for HRD or admin
+                                return !($user && (
+                                    $user->role === 'admin' ||
+                                    $user->role === 'superadmin' ||
+                                    strtolower($user->email) === 'medina.marpaung@edelweiss.sch.id'
+                                ));
+                            })
+                            ->dehydrated() // Always save even if disabled
                             ->required()
                             ->maxLength(255),
                         Forms\Components\TextInput::make('position')

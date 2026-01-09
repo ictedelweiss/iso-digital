@@ -83,6 +83,14 @@ class ConfigService
         ];
     }
 
+    public static function getICT(): array
+    {
+        return [
+            'name' => 'Aris Setyawan',
+            'email' => 'aris.setyawan@edelweiss.sch.id',
+        ];
+    }
+
     public static function getChairman(): array
     {
         return [

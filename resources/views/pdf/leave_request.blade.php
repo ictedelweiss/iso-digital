@@ -9,11 +9,7 @@
         }
 
         body {
-            font-family: "Times New Roman", Times, serif;
-            /* Image looks like serif or slab serif, sticking to standard professional font, maybe bold headers */
-            /* Checking image again, "YAYASAN SINAR" looks like serif (Times). Content looks like serif. */
             font-family: Arial, sans-serif;
-            /* Actually image looks like Sans Serif (Arial/Calibri) upon closer inspection of "Nama : Aris". Let's stick to Arial/Helvetica for clean look, or Segoe UI. The previous Handover was Arial. */
             color: #000;
             font-size: 11px;
             margin: 0;
@@ -24,48 +20,42 @@
         /* Header */
         .header {
             width: 100%;
-            margin-bottom: 30px;
-            border-bottom: double 3px #000;
-            /* Maybe not double, just header separation. Image doesn't show border. */
-            /* Image has no visible border line under header? Hard to tell. 
-               Handover had a box. This one has "YAYASAN..." top left, Title Center, Logo Right.
-               Let's assume clean header. */
+            margin-bottom: 20px;
             padding-bottom: 10px;
+            border-bottom: 2px solid #1e40af;
         }
 
         .header-table {
             width: 100%;
+            border-collapse: collapse;
         }
 
         .header-left {
             width: 30%;
             font-weight: bold;
             font-size: 12px;
-            color: #555;
-            vertical-align: top;
+            color: #003087;
+            vertical-align: middle;
+            text-align: left;
         }
 
         .header-center {
             width: 40%;
             text-align: center;
-            vertical-align: top;
+            vertical-align: middle;
         }
 
         .header-title {
             color: #1e40af;
-            /* Blue title */
             font-size: 16px;
             font-weight: bold;
             text-transform: uppercase;
-            text-decoration: underline;
-            /* Image doesn't show underline? "FORM PERMOHONAN CUTI" is blue. */
-            text-decoration: none;
         }
 
         .header-right {
             width: 30%;
             text-align: right;
-            vertical-align: top;
+            vertical-align: middle;
         }
 
         .header-right img {
@@ -74,32 +64,42 @@
 
         /* Content Fields with Dotted Lines */
         .field-row {
-            margin-bottom: 8px;
-            position: relative;
+            margin-bottom: 5px;
+            display: flex;
         }
 
         .field-label {
-            display: inline-block;
             width: 130px;
+            flex-shrink: 0;
         }
 
         .field-value {
-            display: inline-block;
-            width: calc(100% - 135px);
+            flex: 1;
             border-bottom: 1px dotted #000;
             padding-left: 5px;
+            min-height: 15px;
         }
 
-        /* Narrative Text with Dotted Lines */
+        /* Narrative Text */
         .narrative {
             margin: 20px 0;
-            text-align: justify;
+            line-height: 1.8;
         }
 
         .narrative-line {
-            display: inline-block;
             border-bottom: 1px dotted #000;
+            padding: 0 10px;
+            display: inline-block;
+            min-width: 50px;
             text-align: center;
+        }
+
+        .narrative-line-block {
+            border-bottom: 1px dotted #000;
+            padding: 2px 5px;
+            min-height: 20px;
+            width: 100%;
+            margin-top: 5px;
         }
 
         /* Notes Section */
@@ -120,99 +120,105 @@
         }
 
         .notes li {
-            margin-bottom: 5px;
+            margin-bottom: 8px;
+            text-align: justify;
         }
 
-        /* Calculation Section inside Notes */
+        /* Calculation Table inside Notes */
         .calc-table {
-            margin-left: 20px;
-            width: 80%;
-            border-collapse: collapse;
+            margin-left: 40px;
+            margin-top: 8px;
+            width: calc(100% - 60px);
         }
 
-        .calc-table td {
-            padding: 2px 5px;
+        .calc-table tr {
+            line-height: 1.6;
         }
 
         .calc-label {
             width: 60%;
+            padding-right: 10px;
         }
 
         .calc-eq {
-            width: 10px;
+            width: 30px;
             text-align: center;
         }
 
         .calc-val {
-            width: 15%;
+            width: 80px;
             text-align: left;
-            font-weight: bold;
+            border-bottom: 1px dotted #000;
+            padding-left: 5px;
         }
 
         .calc-unit {
-            width: 15%;
-            text-align: right;
-            font-weight: bold;
+            width: 60px;
+            padding-left: 10px;
         }
 
-        /* Signatures */
-        .sig-table {
-            width: 100%;
+        /* Signatures Table */
+        .sig-container {
             margin-top: 40px;
-            border-top: 1px solid #000;
-            padding-top: 20px;
         }
 
-        /* Image has a line separating signatures? "Aris Setyawan" ... line below? No. 
-           It looks like a horizontal line above signatures? "4. Bagi Karyawan..." -> Line -> Signatures. 
-           Wait, there is a line separating the names from the titles? "Diajukan Oleh," then space, then Sig, then Name. 
-           Line is above "Aris Setyawan"? No, the line is bottom of the page in image? 
-           The image shows a line separating the note list item 4 from the signature area? 
-           Or maybe footer line?
-           Let's just use standard spacing. */
         .sig-table {
             width: 100%;
-            margin-top: 30px;
-            border-spacing: 0;
+            border-collapse: collapse;
+            border: 1px solid #000;
         }
 
-        .sig-td {
-            width: 33%;
+        .sig-table td {
+            border: 1px solid #000;
             text-align: center;
             vertical-align: top;
-            padding: 0 10px;
+            width: 33.33%;
+            padding: 10px;
         }
 
         .sig-role {
-            margin-bottom: 40px;
+            margin-bottom: 60px;
+            font-size: 11px;
+        }
+
+        .sig-img-container {
+            height: 50px;
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
+            margin-bottom: 5px;
         }
 
         .sig-img {
-            height: 50px;
+            max-height: 50px;
+            max-width: 150px;
             display: block;
-            margin: 0 auto;
         }
 
         .sig-name {
             font-weight: bold;
+            font-size: 11px;
             margin-top: 5px;
-            border-top: 1px solid #000;
-            display: inline-block;
-            padding-top: 2px;
-            width: 80%;
+        }
+
+        .sig-title {
+            font-weight: bold;
+            font-size: 11px;
+            margin-top: 5px;
         }
 
         /* Footer */
         .footer-id {
             text-align: right;
             font-size: 9px;
-            color: #888;
-            margin-top: 30px;
+            color: #666;
+            margin-top: 20px;
         }
     </style>
 </head>
 
 <body>
+    <!-- Header -->
     <div class="header">
         <table class="header-table">
             <tr>
@@ -229,7 +235,7 @@
         </table>
     </div>
 
-    <!-- Fields -->
+    <!-- Personal Information Fields -->
     <div class="field-row">
         <span class="field-label">Nama :</span>
         <span class="field-value">{{ $leave->name }}</span>
@@ -243,23 +249,25 @@
         <span class="field-value">{{ $leave->department }}</span>
     </div>
 
-    <!-- Narrative -->
+    <!-- Leave Request Narrative -->
     <div class="narrative">
         Dengan ini mengajukan permohonan cuti selama
-        <span class="narrative-line" style="width: 50px;">{{ $leave->duration_days }}</span>
-        hari kerja, terhitung mulai tanggal <br>
-        <span class="narrative-line" style="width: 150px;">{{ $leave->start_date->format('Y-m-d') }}</span>
+        <span class="narrative-line">{{ $leave->duration_days }}</span>
+        hari kerja, terhitung mulai tanggal<br>
+        <span class="narrative-line"
+            style="min-width: 150px;">{{ \Carbon\Carbon::parse($leave->start_date)->format('d/m/Y') }}</span>
         s/d
-        <span class="narrative-line" style="width: 150px;">{{ $leave->end_date->format('Y-m-d') }}</span>
+        <span class="narrative-line"
+            style="min-width: 150px;">{{ \Carbon\Carbon::parse($leave->end_date)->format('d/m/Y') }}</span>
         untuk keperluan :<br>
-        <div class="field-value" style="width: 100%; margin-top: 5px;">{{ $leave->purpose }}</div>
+        <div class="narrative-line-block">{{ $leave->purpose }}</div>
     </div>
 
-    <div style="margin-top: 20px;">
+    <div style="margin-top: 15px;">
         Demikian permohonan cuti ini saya buat, untuk dapat dipertimbangkan sebagaimana mestinya
     </div>
 
-    <!-- Notes -->
+    <!-- Notes Section -->
     <div class="notes">
         <div class="notes-title">Note :</div>
         <ol>
@@ -267,90 +275,100 @@
             <li>Permohonan Cuti yang mendadak harus dilandasi oleh alasan kuat yang berhubungan dengan cuti dimaksud.
             </li>
             <li>
-                Hak Cuti Thn. .......... (sebelumnya)
-
                 <table class="calc-table">
+                    <tr>
+                        <td class="calc-label">Hak Cuti Thn. .......... (sebelumnya)</td>
+                        <td class="calc-eq">=</td>
+                        <td class="calc-val"></td>
+                        <td class="calc-unit">Hari</td>
+                    </tr>
                     <tr>
                         <td class="calc-label"><strong>Hak Cuti Thn. .......... (berjalan)</strong></td>
                         <td class="calc-eq">=</td>
-                        <td class="calc-val">{{ $leave->hak_curr + 0 }}</td>
-                        <!-- +0 to remove trailing zeros if decimal -->
-                        <td class="calc-unit">Hari</td>
+                        <td class="calc-val"></td>
+                        <td class="calc-unit">+/+</td>
                     </tr>
                     <tr>
                         <td class="calc-label">Total Hak Cuti</td>
                         <td class="calc-eq">=</td>
-                        <td class="calc-val">{{ $leave->total_hak + 0 }}</td>
+                        <td class="calc-val"></td>
                         <td class="calc-unit">Hari</td>
                     </tr>
                     <tr>
-                        <td class="calc-label"><strong>Cuti yang telah diambil s/d ................ (hari ini)</strong>
-                        </td>
+                        <td class="calc-label"><strong>Cuti yang telah diambil s/d .................. (hari ini
+                                )</strong></td>
                         <td class="calc-eq">=</td>
-                        <td class="calc-val">{{ $leave->taken_until + 0 }}</td>
+                        <td class="calc-val"></td>
+                        <td class="calc-unit">Hari -/-</td>
+                    </tr>
+                    <tr>
+                        <td class="calc-label">Sisa Cuti</td>
+                        <td class="calc-eq">=</td>
+                        <td class="calc-val"></td>
                         <td class="calc-unit">Hari</td>
                     </tr>
                     <tr>
-                        <td class="calc-label"><strong>Sisa Cuti</strong></td>
+                        <td class="calc-label">Permohonan Cuti</td>
                         <td class="calc-eq">=</td>
-                        <td class="calc-val">{{ $leave->sisa_curr + 0 }}</td>
-                        <td class="calc-unit">Hari</td>
+                        <td class="calc-val"></td>
+                        <td class="calc-unit">Hari -/-</td>
                     </tr>
                     <tr>
-                        <td class="calc-label"><strong>Permohonan Cuti</strong></td>
+                        <td class="calc-label"><strong>Sisa Cuti Per ............... (tanggal hari ini)</strong></td>
                         <td class="calc-eq">=</td>
-                        <td class="calc-val">{{ $leave->request_days + 0 }}</td>
-                        <td class="calc-unit">Hari</td>
-                    </tr>
-                    <tr>
-                        <td class="calc-label"><strong>Sisa Cuti Per .......... (tanggal hari ini)</strong></td>
-                        <td class="calc-eq">=</td>
-                        <td class="calc-val">{{ $leave->sisa_after + 0 }}</td>
-                        <td class="calc-unit">Hari</td>
+                        <td class="calc-val"></td>
+                        <td class="calc-unit"><strong>Hari</strong></td>
                     </tr>
                 </table>
             </li>
-            <li style="margin-top: 10px;">Bagi Karyawan yang belum memiliki hak cuti atau hak cuti sudah habis (cuti
-                negatif), wajib meminta persetujuan Ketua Yayasan untuk pengajuan permohonan cuti dan diserahkan kepada
-                HRD.</li>
+            <li>Bagi Karyawan yang belum memiliki hak cuti atau hak cuti sudah habis (cuti negatif), wajib meminta
+                persetujuan Ketua Yayasan untuk pengajuan permohonan cuti dan diserahkan kepada HRD.</li>
         </ol>
     </div>
 
     <!-- Signatures -->
-    <table class="sig-table">
-        <tr>
-            <td class="sig-td">
-                <div class="sig-role">Diajukan Oleh,</div>
-                @if($signaturePemohon)
-                    <img src="{{ $signaturePemohon }}" class="sig-img">
-                @else
-                    <div style="height: 50px;"></div>
-                @endif
-                <div class="sig-name">{{ $leave->name }}</div>
-            </td>
+    <div class="sig-container">
+        <table class="sig-table">
+            <tr>
+                <!-- Column 1: Diajukan Oleh -->
+                <td>
+                    <div class="sig-role">Diajukan Oleh,</div>
+                    <div class="sig-img-container">
+                        @if($signaturePemohon)
+                            <img src="{{ $signaturePemohon }}" class="sig-img">
+                        @endif
+                    </div>
+                    <div class="sig-name">{{ $leave->name }}</div>
+                    <div class="sig-title">Pemohon</div>
+                </td>
 
-            <td class="sig-td">
-                <div class="sig-role">Disetujui Oleh,</div>
-                @if($signatures['koordinator']['src'])
-                    <img src="{{ $signatures['koordinator']['src'] }}" class="sig-img">
-                @else
-                    <div style="height: 50px;"></div>
-                @endif
-                <!-- Image shows "Juarsa Oemardikarta" in middle. Coordinator for ICT is Juarsa. -->
-                <div class="sig-name">{{ $signatures['koordinator']['name'] ?? '................' }}</div>
-            </td>
+                <!-- Column 2: Disetujui Oleh -->
+                <td>
+                    <div class="sig-role">Disetujui Oleh,</div>
+                    <div class="sig-img-container">
+                        @if($signatures['koordinator']['src'])
+                            <img src="{{ $signatures['koordinator']['src'] }}" class="sig-img">
+                        @endif
+                    </div>
+                    <div class="sig-name">{{ $signatures['koordinator']['name'] ?? '................................' }}
+                    </div>
+                    <div class="sig-title">Direct Superior</div>
+                </td>
 
-            <td class="sig-td">
-                <div class="sig-role">Diketahui Oleh,</div>
-                @if($signatures['hrd']['src'])
-                    <img src="{{ $signatures['hrd']['src'] }}" class="sig-img">
-                @else
-                    <div style="height: 50px;"></div>
-                @endif
-                <div class="sig-name">{{ $signatures['hrd']['name'] ?? '................' }}</div>
-            </td>
-        </tr>
-    </table>
+                <!-- Column 3: Diketahui Oleh -->
+                <td>
+                    <div class="sig-role">Diketahui Oleh,</div>
+                    <div class="sig-img-container">
+                        @if($signatures['hrd']['src'])
+                            <img src="{{ $signatures['hrd']['src'] }}" class="sig-img">
+                        @endif
+                    </div>
+                    <div class="sig-name">{{ $signatures['hrd']['name'] ?? '................................' }}</div>
+                    <div class="sig-title">HRD/Chairman</div>
+                </td>
+            </tr>
+        </table>
+    </div>
 
     <div class="footer-id">
         YSPE-HRD-FM-019<br>

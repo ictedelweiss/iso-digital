@@ -57,7 +57,18 @@ class PurchaseRequisitionResource extends Resource
 
                         Forms\Components\TextInput::make('requester')
                             ->label('Nama Pemohon')
-                            ->default(fn() => Auth::user()->username ?? Auth::user()->name ?? '')
+                            ->default(function () {
+                                $user = Auth::user();
+                                if ($user) {
+                                    // Prioritize Microsoft 365 display name
+                                    if (!empty($user->display_name)) {
+                                        return $user->display_name;
+                                    }
+                                    // Fallback: Convert username to proper name
+                                    return ucwords(str_replace('.', ' ', $user->username));
+                                }
+                                return '';
+                            })
                             ->required(),
 
                         Forms\Components\DatePicker::make('needed_date')

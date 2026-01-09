@@ -14,10 +14,10 @@ class PrPdfController extends Controller
         // Eager load relationships
         $record->load(['items', 'approvals']);
 
-        // Prepare data for the 5-row loop
+        // Prepare data for 9-row table (as per reference)
         $items = $record->items->toArray();
         $paddedItems = [];
-        for ($i = 0; $i < 5; $i++) {
+        for ($i = 0; $i < 9; $i++) {
             if (isset($items[$i])) {
                 $paddedItems[] = $items[$i];
             } else {
@@ -54,19 +54,16 @@ class PrPdfController extends Controller
         $accounting = \App\Services\ConfigService::getAccounting();
         $chairman = \App\Services\ConfigService::getChairman();
 
+        // Get coordinator based on department
+        $coordinator = \App\Services\ConfigService::getCoordinator($record->department);
+
         $signatures = [
-            'koordinator' => ['src' => '', 'name' => 'Koordinator'],
+            'koordinator' => ['src' => '', 'name' => $coordinator['name']],
             'accounting' => ['src' => '', 'name' => $accounting['name']],
             'ketua_yayasan' => ['src' => '', 'name' => $chairman['name']],
         ];
 
         foreach ($record->approvals as $approval) {
-            if ($approval->role === 'koordinator' && !$approval->approver_name) {
-                // Try to fallback to department coordinator name if not stored
-                $coord = \App\Services\ConfigService::getCoordinator($record->department);
-                $approval->approver_name = $coord['name'];
-            }
-
             if ($approval->signature_path) {
                 $path = public_path($approval->signature_path);
                 if (!File::exists($path)) {
@@ -77,17 +74,18 @@ class PrPdfController extends Controller
 
                 if ($approval->role === 'koordinator') {
                     $signatures['koordinator']['src'] = $imgSrc;
-                    if ($approval->approver_name) {
+                    // Only override if approver_name exists and looks valid (first letter uppercase)
+                    if ($approval->approver_name && ucfirst($approval->approver_name) === $approval->approver_name) {
                         $signatures['koordinator']['name'] = $approval->approver_name;
                     }
                 } elseif ($approval->role === 'accounting') {
                     $signatures['accounting']['src'] = $imgSrc;
-                    if ($approval->approver_name) {
+                    if ($approval->approver_name && ucfirst($approval->approver_name) === $approval->approver_name) {
                         $signatures['accounting']['name'] = $approval->approver_name;
                     }
                 } elseif ($approval->role === 'ketua_yayasan') {
                     $signatures['ketua_yayasan']['src'] = $imgSrc;
-                    if ($approval->approver_name) {
+                    if ($approval->approver_name && ucfirst($approval->approver_name) === $approval->approver_name) {
                         $signatures['ketua_yayasan']['name'] = $approval->approver_name;
                     }
                 }

@@ -344,8 +344,7 @@
                     @endif
                 </div>
                 <div class="sig-name">({{ $signatures['recipient']['name'] ?? '................' }})</div>
-                <div class="sig-title">{{ $form->recipient_name }}</div>
-                <!-- Assuming Title is name repeated or job title? Image has title below name. Using recipient name for now as title isn't stored separately -->
+                <div class="sig-title">{{ $form->recipient_department }}</div>
             </td>
         </tr>
     </table>

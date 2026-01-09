@@ -33,6 +33,7 @@ class User extends Authenticatable implements FilamentUser
         'role',
         'ms_id',
         'ms_email',
+        'display_name',
         'signature_path',
     ];
 
