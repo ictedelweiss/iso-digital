@@ -19,6 +19,7 @@ class Asset extends Model
         'name',
         'category_id',
         'location_id',
+        'pic_id',
         'serial_number',
         'model',
         'manufacturer',
@@ -218,6 +219,11 @@ class Asset extends Model
     public function updater(): BelongsTo
     {
         return $this->belongsTo(User::class, 'updated_by');
+    }
+
+    public function pic(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'pic_id');
     }
 
     public function histories(): HasMany

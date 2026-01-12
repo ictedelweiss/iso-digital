@@ -33,3 +33,7 @@ Route::get('/admin/purchase-requisitions/{record}/pdf', [\App\Http\Controllers\P
 Route::get('/admin/leave-requests/{record}/pdf', [\App\Http\Controllers\LeavePdfController::class, 'download'])->name('leave.pdf');
 Route::get('/admin/handover-forms/{record}/pdf', [\App\Http\Controllers\HandoverPdfController::class, 'download'])->name('handover.pdf');
 
+// Asset Label Print Routes
+Route::get('/admin/assets/print-labels', [\App\Http\Controllers\AssetLabelController::class, 'print'])->name('assets.print.labels');
+Route::get('/admin/assets/{id}/print-label', [\App\Http\Controllers\AssetLabelController::class, 'printSingle'])->name('assets.print.single');
+

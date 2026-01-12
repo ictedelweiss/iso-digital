@@ -17,7 +17,7 @@ return new class extends Migration {
             $table->string('field_name', 100)->nullable()->comment('Nama field yang diubah');
             $table->text('old_value')->nullable();
             $table->text('new_value')->nullable();
-            $table->foreignId('changed_by')->constrained('users')->cascadeOnDelete();
+            $table->foreignId('changed_by')->constrained('admins')->cascadeOnDelete();
             $table->timestamp('created_at')->useCurrent();
 
             // Indexes untuk query performance

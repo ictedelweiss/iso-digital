@@ -85,6 +85,15 @@ class AssetResource extends Resource
                                 Forms\Components\Textarea::make('address'),
                             ])
                             ->columnSpan(1),
+
+                        Forms\Components\Select::make('pic_id')
+                            ->label('PIC (Person In Charge)')
+                            ->relationship('pic', 'username')
+                            ->searchable()
+                            ->preload()
+                            ->placeholder('Pilih PIC')
+                            ->helperText('Penanggung jawab asset')
+                            ->columnSpan(1),
                     ])
                     ->columns(2),
 
@@ -206,7 +215,18 @@ class AssetResource extends Resource
                     ->searchable()
                     ->sortable()
                     ->badge()
-                    ->color('info'),
+                    ->color('info')
+                    ->toggleable(),
+
+                Tables\Columns\TextColumn::make('pic.username')
+                    ->label('PIC')
+                    ->searchable()
+                    ->sortable()
+                    ->badge()
+                    ->color('gray')
+                    ->icon('heroicon-o-user')
+                    ->placeholder('Belum ditentukan')
+                    ->toggleable(isToggledHiddenByDefault: true),
 
                 Tables\Columns\TextColumn::make('status')
                     ->label('Status')
@@ -228,13 +248,13 @@ class AssetResource extends Resource
                         'Poor' => 'danger',
                     })
                     ->sortable()
-                    ->toggleable(),
+                    ->toggleable(isToggledHiddenByDefault: true),
 
                 Tables\Columns\TextColumn::make('purchase_price')
                     ->label('Harga')
                     ->money('IDR')
                     ->sortable()
-                    ->toggleable(),
+                    ->toggleable(isToggledHiddenByDefault: true),
 
                 Tables\Columns\TextColumn::make('created_at')
                     ->label('Dibuat')
@@ -293,11 +313,28 @@ class AssetResource extends Resource
                     })
                     ->visible(fn(Asset $record) => !empty($record->qr_code)),
 
+                Tables\Actions\Action::make('print_label')
+                    ->label('Print Label')
+                    ->icon('heroicon-o-printer')
+                    ->color('success')
+                    ->url(fn(Asset $record) => route('assets.print.single', $record->id))
+                    ->openUrlInNewTab(),
+
                 Tables\Actions\DeleteAction::make()
                     ->visible(fn() => auth()->user()->is_admin ?? false),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
+                    Tables\Actions\BulkAction::make('print_labels')
+                        ->label('Print Selected Labels')
+                        ->icon('heroicon-o-printer')
+                        ->color('success')
+                        ->action(function ($records) {
+                            $assetIds = $records->pluck('id')->toArray();
+                            return redirect()->route('assets.print.labels', ['assets' => $assetIds]);
+                        })
+                        ->deselectRecordsAfterCompletion(),
+
                     Tables\Actions\DeleteBulkAction::make()
                         ->visible(fn() => auth()->user()->is_admin ?? false),
                 ]),
@@ -341,6 +378,13 @@ class AssetResource extends Resource
                             ->label('Lokasi')
                             ->badge()
                             ->color('info'),
+
+                        Infolists\Components\TextEntry::make('pic.username')
+                            ->label('PIC')
+                            ->badge()
+                            ->color('gray')
+                            ->icon('heroicon-o-user')
+                            ->placeholder('Belum ditentukan'),
 
                         Infolists\Components\TextEntry::make('serial_number')
                             ->label('Serial Number')

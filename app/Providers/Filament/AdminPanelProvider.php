@@ -44,6 +44,8 @@ class AdminPanelProvider extends PanelProvider
                 'Attendance',
                 'Documents',
                 'Settings',
+                'Asset Management',
+                // 'HRD Management', // Requires database migration - disabled for now
             ])
             ->sidebarCollapsibleOnDesktop()
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\\Filament\\Resources')
@@ -54,7 +56,7 @@ class AdminPanelProvider extends PanelProvider
             ->discoverWidgets(in: app_path('Filament/Widgets'), for: 'App\\Filament\\Widgets')
             ->widgets([
                 Widgets\AccountWidget::class,
-                \App\Filament\Widgets\StatsOverviewWidget::class,
+                // \App\Filament\Widgets\StatsOverviewWidget::class, // Disabled - tables don't exist in this commit
             ])
             ->middleware([
                 EncryptCookies::class,
