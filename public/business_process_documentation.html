@@ -1,0 +1,1349 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ISO Digital System - Business Process Documentation</title>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #0f172a;
+            --accent: #3b82f6;
+            --success: #22c55e;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --border: #e2e8f0;
+            --bg-light: #f8fafc;
+            --text: #1e293b;
+            --text-muted: #64748b;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            line-height: 1.6;
+            color: var(--text);
+            background: white;
+            font-size: 11pt;
+        }
+
+        .container {
+            max-width: 210mm;
+            margin: 0 auto;
+            padding: 15mm;
+        }
+
+        /* Cover Page */
+        .cover-page {
+            min-height: 297mm;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            background: linear-gradient(135deg, var(--primary) 0%, #1e3a5f 100%);
+            color: white;
+            padding: 40px;
+            page-break-after: always;
+        }
+
+        .cover-logo {
+            width: 120px;
+            margin-bottom: 30px;
+            border-radius: 10px;
+        }
+
+        .cover-title {
+            font-size: 32pt;
+            font-weight: 700;
+            margin-bottom: 15px;
+        }
+
+        .cover-subtitle {
+            font-size: 16pt;
+            font-weight: 300;
+            margin-bottom: 40px;
+            opacity: 0.9;
+        }
+
+        .cover-org {
+            font-size: 14pt;
+            margin-bottom: 10px;
+        }
+
+        .cover-date {
+            font-size: 11pt;
+            opacity: 0.7;
+            margin-top: 60px;
+        }
+
+        .cover-confidential {
+            margin-top: 40px;
+            padding: 10px 30px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 5px;
+            font-size: 10pt;
+            letter-spacing: 2px;
+        }
+
+        /* Headers */
+        h1 {
+            font-size: 22pt;
+            color: var(--primary);
+            border-bottom: 3px solid var(--accent);
+            padding-bottom: 10px;
+            margin: 30px 0 20px 0;
+        }
+
+        h2 {
+            font-size: 16pt;
+            color: var(--primary);
+            margin: 25px 0 15px 0;
+            border-left: 4px solid var(--accent);
+            padding-left: 15px;
+        }
+
+        h3 {
+            font-size: 13pt;
+            color: var(--primary);
+            margin: 20px 0 10px 0;
+        }
+
+        h4 {
+            font-size: 11pt;
+            color: var(--text-muted);
+            margin: 15px 0 8px 0;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        p {
+            margin-bottom: 12px;
+            text-align: justify;
+        }
+
+        /* Tables */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+            font-size: 10pt;
+            break-inside: avoid;
+        }
+
+        th,
+        td {
+            border: 1px solid var(--border);
+            padding: 10px 12px;
+            text-align: left;
+        }
+
+        th {
+            background: var(--bg-light);
+            font-weight: 600;
+            color: var(--primary);
+        }
+
+        tr:nth-child(even) {
+            background: #fafafa;
+        }
+
+        /* Diagrams */
+        .diagram-container {
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+            break-inside: avoid;
+            page-break-inside: avoid;
+        }
+
+        .diagram-title {
+            font-size: 11pt;
+            font-weight: 600;
+            color: var(--primary);
+            margin-bottom: 15px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .mermaid {
+            text-align: center;
+        }
+
+        /* Info Boxes */
+        .info-box {
+            padding: 15px 20px;
+            margin: 15px 0;
+            border-radius: 6px;
+            border-left: 4px solid;
+            break-inside: avoid;
+        }
+
+        .info-box.note {
+            background: #eff6ff;
+            border-color: var(--accent);
+        }
+
+        .info-box.success {
+            background: #f0fdf4;
+            border-color: var(--success);
+        }
+
+        .info-box.warning {
+            background: #fffbeb;
+            border-color: var(--warning);
+        }
+
+        .info-box.important {
+            background: #fef2f2;
+            border-color: var(--danger);
+        }
+
+        .info-box strong {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        /* Lists */
+        ul,
+        ol {
+            margin: 10px 0 15px 25px;
+        }
+
+        li {
+            margin-bottom: 5px;
+        }
+
+        /* Code */
+        code {
+            background: var(--bg-light);
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-size: 0.9em;
+        }
+
+        /* TOC */
+        .toc {
+            background: var(--bg-light);
+            padding: 25px 30px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+
+        .toc h2 {
+            border: none;
+            padding: 0;
+            margin: 0 0 20px 0;
+        }
+
+        .toc ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        .toc>ul>li {
+            margin-bottom: 12px;
+            font-weight: 500;
+        }
+
+        .toc ul ul {
+            margin-left: 20px;
+            margin-top: 8px;
+        }
+
+        .toc ul ul li {
+            font-weight: 400;
+            margin-bottom: 6px;
+            font-size: 10pt;
+            color: var(--text-muted);
+        }
+
+        /* Section */
+        .section {
+            margin-bottom: 30px;
+        }
+
+        .section-break {
+            break-before: page;
+            page-break-before: always;
+        }
+
+        /* Role Badge */
+        .role-badge {
+            display: inline-block;
+            padding: 3px 10px;
+            border-radius: 15px;
+            font-size: 9pt;
+            font-weight: 500;
+            margin: 2px;
+        }
+
+        .role-badge.admin {
+            background: #dbeafe;
+            color: #1e40af;
+        }
+
+        .role-badge.koordinator {
+            background: #dcfce7;
+            color: #166534;
+        }
+
+        .role-badge.staff {
+            background: #fef3c7;
+            color: #92400e;
+        }
+
+        /* Footer */
+        .page-footer {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            text-align: center;
+            font-size: 8pt;
+            color: var(--text-muted);
+            padding: 10px;
+            border-top: 1px solid var(--border);
+        }
+
+        /* Print Styles */
+        @media print {
+            @page {
+                size: A4;
+                margin: 15mm;
+            }
+
+            body {
+                background: white;
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+
+            .container {
+                max-width: none;
+                padding: 0;
+            }
+
+            .cover-page {
+                min-height: auto;
+                padding: 60px 40px;
+            }
+
+            .diagram-container,
+            .info-box,
+            table,
+            tr {
+                break-inside: avoid;
+                page-break-inside: avoid;
+            }
+
+            h2,
+            h3 {
+                break-after: avoid;
+                page-break-after: avoid;
+            }
+
+            .no-print {
+                display: none;
+            }
+        }
+    </style>
+    <script>
+        mermaid.initialize({
+            startOnLoad: true,
+            theme: 'base',
+            themeVariables: {
+                primaryColor: '#e0e7ff',
+                primaryTextColor: '#1e293b',
+                primaryBorderColor: '#3b82f6',
+                lineColor: '#64748b',
+                secondaryColor: '#f1f5f9',
+                tertiaryColor: '#fef3c7'
+            },
+            flowchart: { useMaxWidth: true, htmlLabels: true, curve: 'basis' }
+        });
+    </script>
+</head>
+
+<body>
+
+    <!-- COVER PAGE -->
+    <div class="cover-page">
+        <img src="logo.png" alt="Edelweiss Logo" class="cover-logo">
+        <div class="cover-title">ISO Digital System</div>
+        <div class="cover-subtitle">Business Process Documentation</div>
+        <div class="cover-org">Yayasan Pendidikan Edelweiss</div>
+        <div class="cover-org" style="font-size: 12pt; opacity: 0.8;">Platform Manajemen Terintegrasi</div>
+        <div class="cover-date">Januari 2026 • Versi 1.0</div>
+        <div class="cover-confidential">INTERNAL USE ONLY</div>
+    </div>
+
+    <div class="container">
+
+        <!-- TABLE OF CONTENTS -->
+        <div class="toc">
+            <h2>📑 Daftar Isi</h2>
+            <ul>
+                <li>1. Executive Summary
+                    <ul>
+                        <li>1.1 Tujuan Sistem</li>
+                        <li>1.2 Manfaat Utama</li>
+                    </ul>
+                </li>
+                <li>2. Arsitektur Sistem
+                    <ul>
+                        <li>2.1 Diagram Arsitektur</li>
+                        <li>2.2 Teknologi Stack</li>
+                    </ul>
+                </li>
+                <li>3. User Roles & Permissions
+                    <ul>
+                        <li>3.1 Hierarki Role</li>
+                        <li>3.2 Matriks Akses</li>
+                    </ul>
+                </li>
+                <li>4. Purchase Requisition (PR)
+                    <ul>
+                        <li>4.1 BPMN Diagram</li>
+                        <li>4.2 Flowchart Detail</li>
+                        <li>4.3 Aturan Bisnis</li>
+                    </ul>
+                </li>
+                <li>5. Leave Management
+                    <ul>
+                        <li>5.1 BPMN - Leave Request</li>
+                        <li>5.2 Flowchart Kuota</li>
+                        <li>5.3 Jenis Cuti</li>
+                    </ul>
+                </li>
+                <li>6. Handover Form
+                    <ul>
+                        <li>6.1 BPMN Diagram</li>
+                        <li>6.2 Flowchart Serah Terima</li>
+                    </ul>
+                </li>
+                <li>7. Asset Management
+                    <ul>
+                        <li>7.1 Lifecycle Aset</li>
+                        <li>7.2 QR Code Tracking</li>
+                    </ul>
+                </li>
+                <li>8. Meeting Attendance
+                    <ul>
+                        <li>8.1 Alur Absensi</li>
+                        <li>8.2 Laporan PDF</li>
+                    </ul>
+                </li>
+                <li>9. Approval Workflow Engine
+                    <ul>
+                        <li>9.1 Mekanisme Approval</li>
+                        <li>9.2 Email Notification</li>
+                    </ul>
+                </li>
+                <li>10. Lampiran
+                    <ul>
+                        <li>10.1 Daftar Koordinator</li>
+                        <li>10.2 Konfigurasi Email</li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+
+        <!-- SECTION 1: EXECUTIVE SUMMARY -->
+        <div class="section section-break">
+            <h1>1. Executive Summary</h1>
+
+            <h2>1.1 Tujuan Sistem</h2>
+            <p><strong>ISO Digital System</strong> adalah platform manajemen terintegrasi yang dirancang untuk mendukung
+                transformasi digital Yayasan Pendidikan Edelweiss. Sistem ini mengotomatisasi proses-proses
+                administratif kunci untuk meningkatkan efisiensi operasional dan memastikan kepatuhan terhadap standar
+                ISO.</p>
+
+            <div class="info-box note">
+                <strong>💡 Visi Digital</strong>
+                Mewujudkan tata kelola yayasan pendidikan yang transparan, efisien, dan terukur melalui digitalisasi
+                proses bisnis yang terintegrasi.
+            </div>
+
+            <h2>1.2 Manfaat Utama</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th width="30%">Aspek</th>
+                        <th>Manfaat</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Efisiensi Waktu</strong></td>
+                        <td>Proses approval yang sebelumnya membutuhkan berhari-hari kini dapat diselesaikan dalam
+                            hitungan jam melalui notifikasi email real-time.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Transparansi</strong></td>
+                        <td>Setiap proses tercatat dengan jejak audit lengkap, memudahkan tracking dan pelaporan.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Paperless</strong></td>
+                        <td>Pengurangan penggunaan kertas hingga 80% melalui digitalisasi form dan tanda tangan digital.
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><strong>Aksesibilitas</strong></td>
+                        <td>Approval dapat dilakukan kapanpun dan di manapun melalui email atau panel admin.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Akurasi Data</strong></td>
+                        <td>Eliminasi kesalahan input manual dan duplikasi data melalui validasi otomatis.</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h2>1.3 Modul Sistem</h2>
+            <div class="diagram-container">
+                <div class="diagram-title">📊 Overview Modul ISO Digital System</div>
+                <div class="mermaid">
+                    graph TB
+                    subgraph ISO["ISO Digital System"]
+                    PR["🛒 Purchase Requisition"]
+                    LV["📅 Leave Management"]
+                    HO["📦 Handover Form"]
+                    AS["🏷️ Asset Management"]
+                    MT["📋 Meeting Attendance"]
+                    US["👥 User Management"]
+                    end
+                    subgraph CORE["Core Services"]
+                    AP["⚡ Approval Engine"]
+                    EM["📧 Email Notification"]
+                    SG["✍️ Digital Signature"]
+                    end
+                    PR --> AP
+                    LV --> AP
+                    HO --> AP
+                    AP --> EM
+                    AP --> SG
+                </div>
+            </div>
+        </div>
+
+        <!-- SECTION 2: SYSTEM ARCHITECTURE -->
+        <div class="section section-break">
+            <h1>2. Arsitektur Sistem</h1>
+
+            <h2>2.1 Diagram Arsitektur</h2>
+            <div class="diagram-container">
+                <div class="diagram-title">🏗️ System Architecture Overview</div>
+                <div class="mermaid">
+                    graph TB
+                    subgraph CLIENT["Client Layer"]
+                    WB["🌐 Web Browser"]
+                    MB["📱 Mobile Browser"]
+                    end
+                    subgraph APP["Application Layer"]
+                    FP["Filament Admin Panel"]
+                    API["Laravel API"]
+                    BL["Business Logic"]
+                    end
+                    subgraph SERV["Services"]
+                    AS["Approval Service"]
+                    NS["Notification Service"]
+                    PS["PDF Service"]
+                    end
+                    subgraph DATA["Data Layer"]
+                    DB[(MySQL Database)]
+                    FS["File Storage"]
+                    end
+                    subgraph EXT["External Services"]
+                    MS["Microsoft Graph API"]
+                    QR["QR Code Generator"]
+                    end
+                    WB --> FP
+                    MB --> FP
+                    FP --> API
+                    API --> BL
+                    BL --> AS
+                    BL --> NS
+                    BL --> PS
+                    AS --> DB
+                    NS --> MS
+                    PS --> FS
+                    AS --> FS
+                </div>
+            </div>
+
+            <h2>2.2 Technology Stack</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Layer</th>
+                        <th>Teknologi</th>
+                        <th>Versi</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Backend Framework</td>
+                        <td>Laravel</td>
+                        <td>12.x</td>
+                    </tr>
+                    <tr>
+                        <td>Admin Panel</td>
+                        <td>Filament</td>
+                        <td>3.x</td>
+                    </tr>
+                    <tr>
+                        <td>Database</td>
+                        <td>MySQL</td>
+                        <td>8.0</td>
+                    </tr>
+                    <tr>
+                        <td>PDF Generation</td>
+                        <td>DomPDF</td>
+                        <td>3.x</td>
+                    </tr>
+                    <tr>
+                        <td>Email Service</td>
+                        <td>Microsoft Graph API</td>
+                        <td>-</td>
+                    </tr>
+                    <tr>
+                        <td>QR Code</td>
+                        <td>Simple QRCode</td>
+                        <td>4.x</td>
+                    </tr>
+                    <tr>
+                        <td>Frontend</td>
+                        <td>Tailwind CSS + Livewire</td>
+                        <td>4.x</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- SECTION 3: USER ROLES -->
+        <div class="section section-break">
+            <h1>3. User Roles & Permissions</h1>
+
+            <h2>3.1 Hierarki Role</h2>
+            <div class="diagram-container">
+                <div class="diagram-title">👥 Role Hierarchy</div>
+                <div class="mermaid">
+                    graph TB
+                    SA["🔑 Super Admin"]
+                    AD["👨‍💼 Admin"]
+                    KY["🎓 Ketua Yayasan"]
+                    KO["📊 Koordinator"]
+                    AC["💰 Accounting"]
+                    HR["👔 HRD"]
+                    IC["💻 ICT"]
+                    ST["👤 Staff"]
+
+                    SA --> AD
+                    SA --> KY
+                    AD --> KO
+                    AD --> AC
+                    AD --> HR
+                    AD --> IC
+                    KO --> ST
+                </div>
+            </div>
+
+            <h2>3.2 Matriks Akses</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Role</th>
+                        <th>PR</th>
+                        <th>Leave</th>
+                        <th>Handover</th>
+                        <th>Asset</th>
+                        <th>Meeting</th>
+                        <th>Users</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><span class="role-badge admin">Super Admin</span></td>
+                        <td>✅ Full</td>
+                        <td>✅ Full</td>
+                        <td>✅ Full</td>
+                        <td>✅ Full</td>
+                        <td>✅ Full</td>
+                        <td>✅ Full</td>
+                    </tr>
+                    <tr>
+                        <td><span class="role-badge admin">Admin</span></td>
+                        <td>✅ Full</td>
+                        <td>✅ Full</td>
+                        <td>✅ Full</td>
+                        <td>✅ Full</td>
+                        <td>✅ Full</td>
+                        <td>✅ Full</td>
+                    </tr>
+                    <tr>
+                        <td><span class="role-badge koordinator">Koordinator</span></td>
+                        <td>✅ Approve</td>
+                        <td>✅ Approve</td>
+                        <td>View</td>
+                        <td>View</td>
+                        <td>✅ Create</td>
+                        <td>View</td>
+                    </tr>
+                    <tr>
+                        <td><span class="role-badge staff">Accounting</span></td>
+                        <td>✅ Approve</td>
+                        <td>View</td>
+                        <td>View</td>
+                        <td>View</td>
+                        <td>View</td>
+                        <td>-</td>
+                    </tr>
+                    <tr>
+                        <td><span class="role-badge staff">HRD</span></td>
+                        <td>View</td>
+                        <td>✅ Approve</td>
+                        <td>View</td>
+                        <td>View</td>
+                        <td>View</td>
+                        <td>View</td>
+                    </tr>
+                    <tr>
+                        <td><span class="role-badge staff">ICT</span></td>
+                        <td>View</td>
+                        <td>View</td>
+                        <td>✅ Full</td>
+                        <td>✅ Full</td>
+                        <td>View</td>
+                        <td>-</td>
+                    </tr>
+                    <tr>
+                        <td><span class="role-badge staff">Staff</span></td>
+                        <td>✅ Create</td>
+                        <td>✅ Create</td>
+                        <td>View Own</td>
+                        <td>View</td>
+                        <td>View</td>
+                        <td>-</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h2>3.3 Departemen & Koordinator</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Departemen</th>
+                        <th>Koordinator</th>
+                        <th>Email</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>KB/TK</td>
+                        <td>Armitridesi Shinta Marito</td>
+                        <td>armitridesi.marito@edelweiss.sch.id</td>
+                    </tr>
+                    <tr>
+                        <td>SD</td>
+                        <td>Miske Ferlani</td>
+                        <td>miske.ferlani@edelweiss.sch.id</td>
+                    </tr>
+                    <tr>
+                        <td>SMP</td>
+                        <td>Yudha Hadi Purnama</td>
+                        <td>yudha.purnama@edelweiss.sch.id</td>
+                    </tr>
+                    <tr>
+                        <td>PKBM</td>
+                        <td>Mia Roosmalisa</td>
+                        <td>mia.roosmalisa@edelweiss.sch.id</td>
+                    </tr>
+                    <tr>
+                        <td>ICT</td>
+                        <td>Juarsa Oemardikarta</td>
+                        <td>juarsa.oemardikarta@edelweiss.sch.id</td>
+                    </tr>
+                    <tr>
+                        <td>Management</td>
+                        <td>Ayu Puspitawati</td>
+                        <td>ayu.puspitawati@edelweiss.sch.id</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- SECTION 4: PURCHASE REQUISITION -->
+        <div class="section section-break">
+            <h1>4. Purchase Requisition (PR)</h1>
+
+            <p>Modul Purchase Requisition mengelola seluruh proses permintaan pembelian barang dan jasa, dari pengajuan
+                hingga approval final oleh Ketua Yayasan.</p>
+
+            <h2>4.1 BPMN Diagram - PR Lifecycle</h2>
+            <div class="diagram-container">
+                <div class="diagram-title">📋 BPMN: Purchase Requisition Process</div>
+                <div class="mermaid">
+                    graph LR
+                    subgraph STAFF["Staff"]
+                    S1((●)) --> S2["Buat PR"]
+                    S2 --> S3["Upload Dokumen"]
+                    S3 --> S4["Submit"]
+                    end
+                    subgraph KOORD["Koordinator"]
+                    K1{"Review PR"}
+                    K1 -->|Approve| K2["Tandatangan"]
+                    K1 -->|Reject| K3["Kirim Alasan"]
+                    end
+                    subgraph ACC["Accounting"]
+                    A1{"Cek Budget"}
+                    A1 -->|Approve| A2["Tandatangan"]
+                    A1 -->|Reject| A3["Kirim Alasan"]
+                    end
+                    subgraph KY["Ketua Yayasan"]
+                    Y1{"Final Review"}
+                    Y1 -->|Approve| Y2["Tandatangan Final"]
+                    Y1 -->|Reject| Y3["Kirim Alasan"]
+                    end
+                    S4 --> K1
+                    K2 --> A1
+                    K3 --> S2
+                    A2 --> Y1
+                    A3 --> S2
+                    Y2 --> E1((◉))
+                    Y3 --> S2
+                </div>
+            </div>
+
+            <h2>4.2 Flowchart - Approval Decision</h2>
+            <div class="diagram-container">
+                <div class="diagram-title">🔀 Flowchart: PR Approval Logic</div>
+                <div class="mermaid">
+                    flowchart TD
+                    A[PR Submitted] --> B{Step = 1?}
+                    B -->|Yes| C[Send to Koordinator]
+                    B -->|No| D{Step = 2?}
+                    D -->|Yes| E[Send to Accounting]
+                    D -->|No| F[Send to Ketua Yayasan]
+                    C --> G{Approved?}
+                    E --> H{Approved?}
+                    F --> I{Approved?}
+                    G -->|Yes| J[Advance to Step 2]
+                    G -->|No| K[Status: Rejected]
+                    H -->|Yes| L[Advance to Step 3]
+                    H -->|No| K
+                    I -->|Yes| M[Status: Approved ✅]
+                    I -->|No| K
+                    J --> D
+                    L --> F
+                    M --> N[Generate PDF]
+                    K --> O[Notify Creator]
+                </div>
+            </div>
+
+            <h2>4.3 Aturan Bisnis</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Aturan</th>
+                        <th>Deskripsi</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Nomor PR</strong></td>
+                        <td>Digenerate otomatis setelah approval Step 1: <code>PR-YYYY-XXXX</code></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Dokumen Pendukung</strong></td>
+                        <td>Wajib upload minimal 1 dokumen (PDF/Image)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Approval Timeout</strong></td>
+                        <td>Link approval via email berlaku 7 hari</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Skip Logic</strong></td>
+                        <td>Jika Koordinator = Ketua Yayasan, Step 3 di-skip otomatis</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="info-box warning">
+                <strong>⚠️ Penting</strong>
+                Semua PR yang di-reject akan dikembalikan ke status Draft dan harus disubmit ulang setelah diperbaiki.
+            </div>
+        </div>
+
+        <!-- SECTION 5: LEAVE MANAGEMENT -->
+        <div class="section section-break">
+            <h1>5. Leave Management</h1>
+
+            <p>Sistem manajemen cuti terintegrasi yang mencakup pengelolaan kuota tahunan dan pengajuan cuti dengan
+                approval berjenjang.</p>
+
+            <h2>5.1 BPMN Diagram - Leave Request</h2>
+            <div class="diagram-container">
+                <div class="diagram-title">📋 BPMN: Leave Request Process</div>
+                <div class="mermaid">
+                    graph LR
+                    subgraph STAFF["Karyawan"]
+                    S1((●)) --> S2["Cek Kuota"]
+                    S2 --> S3["Ajukan Cuti"]
+                    S3 --> S4["Input Tanggal"]
+                    S4 --> S5["Submit"]
+                    end
+                    subgraph ATASAN["Atasan Langsung"]
+                    A1{"Review"}
+                    A1 -->|Approve| A2["TTD"]
+                    A1 -->|Reject| A3["Tolak"]
+                    end
+                    subgraph HRD["HRD"]
+                    H1{"Validasi Kuota"}
+                    H1 -->|Valid| H2["TTD"]
+                    H1 -->|Invalid| H3["Tolak"]
+                    end
+                    subgraph KY["Ketua Yayasan"]
+                    K1{"Final"}
+                    K1 -->|Approve| K2["TTD Final"]
+                    K1 -->|Reject| K3["Tolak"]
+                    end
+                    S5 --> A1
+                    A2 --> H1
+                    A3 --> S2
+                    H2 --> K1
+                    H3 --> S2
+                    K2 --> D1["Kuota Dipotong"]
+                    K3 --> S2
+                    D1 --> E1((◉))
+                </div>
+            </div>
+
+            <h2>5.2 Flowchart - Quota Validation</h2>
+            <div class="diagram-container">
+                <div class="diagram-title">🔀 Flowchart: Leave Quota Logic</div>
+                <div class="mermaid">
+                    flowchart TD
+                    A[Request Submitted] --> B{Cek Kuota}
+                    B -->|Kuota Cukup| C[Proceed Approval]
+                    B -->|Kuota Tidak Cukup| D[Reject]
+                    C --> E{Approved?}
+                    E -->|Yes| F[Potong Kuota]
+                    E -->|No| G[Kuota Tetap]
+                    F --> H[Update Sisa Kuota]
+                    H --> I[Notif ke Karyawan]
+                    D --> I
+                    G --> I
+                </div>
+            </div>
+
+            <h2>5.3 Jenis Cuti</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Jenis Cuti</th>
+                        <th>Kuota Default</th>
+                        <th>Keterangan</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Cuti Tahunan</td>
+                        <td>12 hari/tahun</td>
+                        <td>Reset setiap awal tahun</td>
+                    </tr>
+                    <tr>
+                        <td>Cuti Sakit</td>
+                        <td>Sesuai kebutuhan</td>
+                        <td>Dengan surat dokter</td>
+                    </tr>
+                    <tr>
+                        <td>Cuti Melahirkan</td>
+                        <td>3 bulan</td>
+                        <td>Khusus karyawan wanita</td>
+                    </tr>
+                    <tr>
+                        <td>Izin Khusus</td>
+                        <td>Sesuai kebijakan</td>
+                        <td>Pernikahan, duka cita, dll</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- SECTION 6: HANDOVER FORM -->
+        <div class="section section-break">
+            <h1>6. Handover Form</h1>
+
+            <p>Modul untuk mengelola proses serah terima aset atau dokumen, dengan konfirmasi dari penerima dan
+                verifikasi dari ICT.</p>
+
+            <h2>6.1 BPMN Diagram</h2>
+            <div class="diagram-container">
+                <div class="diagram-title">📋 BPMN: Handover Process</div>
+                <div class="mermaid">
+                    graph LR
+                    subgraph ICT["ICT Department"]
+                    I1((●)) --> I2["Buat Form"]
+                    I2 --> I3["Input Data Aset"]
+                    I3 --> I4["Pilih Penerima"]
+                    I4 --> I5["Submit"]
+                    end
+                    subgraph RECIPIENT["Penerima"]
+                    R1["Terima Email"]
+                    R1 --> R2{"Konfirmasi"}
+                    R2 -->|Accept| R3["Tandatangan"]
+                    R2 -->|Reject| R4["Tolak"]
+                    end
+                    subgraph VERIFY["ICT Verify"]
+                    V1{"Verifikasi Final"}
+                    V1 -->|OK| V2["Completed ✅"]
+                    V1 -->|Issue| V3["Revisi"]
+                    end
+                    I5 --> R1
+                    R3 --> V1
+                    R4 --> I2
+                    V2 --> E1((◉))
+                    V3 --> I2
+                </div>
+            </div>
+
+            <h2>6.2 Data yang Dicatat</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Field</th>
+                        <th>Deskripsi</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Nomor Form</td>
+                        <td>Auto-generated: <code>HO-YYYY-XXXX</code></td>
+                    </tr>
+                    <tr>
+                        <td>Nama Aset/Dokumen</td>
+                        <td>Deskripsi item yang diserahkan</td>
+                    </tr>
+                    <tr>
+                        <td>Kondisi</td>
+                        <td>Kondisi item saat serah terima</td>
+                    </tr>
+                    <tr>
+                        <td>Penerima</td>
+                        <td>Nama dan departemen penerima</td>
+                    </tr>
+                    <tr>
+                        <td>Tanggal Serah Terima</td>
+                        <td>Timestamp saat konfirmasi</td>
+                    </tr>
+                    <tr>
+                        <td>Tanda Tangan</td>
+                        <td>Digital signature penerima & ICT</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- SECTION 7: ASSET MANAGEMENT -->
+        <div class="section section-break">
+            <h1>7. Asset Management</h1>
+
+            <p>Sistem pelacakan aset dengan QR code untuk memudahkan identifikasi dan tracking lokasi aset yayasan.</p>
+
+            <h2>7.1 Asset Lifecycle</h2>
+            <div class="diagram-container">
+                <div class="diagram-title">📋 BPMN: Asset Lifecycle</div>
+                <div class="mermaid">
+                    graph LR
+                    A1((●)) --> A2["Akuisisi"]
+                    A2 --> A3["Generate QR"]
+                    A3 --> A4["Assign Lokasi"]
+                    A4 --> A5["Status: Active"]
+                    A5 --> A6{Kondisi?}
+                    A6 -->|Baik| A5
+                    A6 -->|Rusak| A7["Maintenance"]
+                    A6 -->|Disposal| A8["Penghapusan"]
+                    A7 --> A5
+                    A8 --> A9((◉))
+                </div>
+            </div>
+
+            <h2>7.2 Fitur Utama</h2>
+            <ul>
+                <li><strong>QR Code Tracking</strong> - Setiap aset memiliki QR code unik untuk identifikasi cepat</li>
+                <li><strong>Kategori & Lokasi</strong> - Pengelompokan aset berdasarkan kategori dan lokasi fisik</li>
+                <li><strong>History Tracking</strong> - Riwayat perpindahan dan perubahan status aset</li>
+                <li><strong>Label Printing</strong> - Cetak label QR untuk ditempel pada aset fisik</li>
+                <li><strong>Dashboard Statistics</strong> - Overview jumlah aset per kategori dan kondisi</li>
+            </ul>
+
+            <h2>7.3 Status Aset</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Status</th>
+                        <th>Warna</th>
+                        <th>Deskripsi</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Active</td>
+                        <td style="background:#dcfce7">🟢 Hijau</td>
+                        <td>Aset dalam kondisi baik dan aktif digunakan</td>
+                    </tr>
+                    <tr>
+                        <td>Maintenance</td>
+                        <td style="background:#fef3c7">🟡 Kuning</td>
+                        <td>Aset sedang dalam perbaikan</td>
+                    </tr>
+                    <tr>
+                        <td>Inactive</td>
+                        <td style="background:#fee2e2">🔴 Merah</td>
+                        <td>Aset tidak aktif / siap disposal</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- SECTION 8: MEETING ATTENDANCE -->
+        <div class="section section-break">
+            <h1>8. Meeting Attendance</h1>
+
+            <p>Sistem absensi rapat dengan link publik dan QR code untuk memudahkan pencatatan kehadiran peserta.</p>
+
+            <h2>8.1 Alur Absensi</h2>
+            <div class="diagram-container">
+                <div class="diagram-title">🔀 Flowchart: Meeting Attendance</div>
+                <div class="mermaid">
+                    flowchart TD
+                    A[Admin Buat Meeting] --> B[Generate Link & QR]
+                    B --> C[Share ke Peserta]
+                    C --> D[Peserta Akses Link]
+                    D --> E[Isi Form Kehadiran]
+                    E --> F[Submit]
+                    F --> G[Data Tersimpan]
+                    G --> H{Meeting Selesai?}
+                    H -->|No| D
+                    H -->|Yes| I[Generate PDF Report]
+                    I --> J[Download/Print]
+                </div>
+            </div>
+
+            <h2>8.2 Fitur</h2>
+            <ul>
+                <li><strong>Public Link</strong> - Peserta tidak perlu login untuk mengisi absensi</li>
+                <li><strong>QR Code</strong> - Scan QR untuk akses cepat form absensi</li>
+                <li><strong>Real-time</strong> - Data kehadiran update secara real-time</li>
+                <li><strong>PDF Export</strong> - Generate laporan kehadiran dalam format PDF</li>
+                <li><strong>Signature</strong> - Peserta dapat menambahkan tanda tangan digital</li>
+            </ul>
+        </div>
+
+        <!-- SECTION 9: APPROVAL WORKFLOW -->
+        <div class="section section-break">
+            <h1>9. Approval Workflow Engine</h1>
+
+            <p>Mesin approval terpusat yang mengelola seluruh proses persetujuan di sistem dengan notifikasi email
+                otomatis.</p>
+
+            <h2>9.1 Approval Sequences</h2>
+            <div class="diagram-container">
+                <div class="diagram-title">⚙️ Approval Sequences per Module</div>
+                <div class="mermaid">
+                    graph TB
+                    subgraph PR["Purchase Requisition"]
+                    PR1["Step 1: Koordinator"] --> PR2["Step 2: Accounting"] --> PR3["Step 3: Ketua Yayasan"]
+                    end
+                    subgraph LV["Leave Request"]
+                    LV1["Step 1: Atasan Langsung"] --> LV2["Step 2: HRD"] --> LV3["Step 3: Ketua Yayasan"]
+                    end
+                    subgraph HO["Handover Form"]
+                    HO1["Step 1: ICT"] --> HO2["Step 2: Recipient"]
+                    end
+                </div>
+            </div>
+
+            <h2>9.2 Email Notification Flow</h2>
+            <div class="diagram-container">
+                <div class="diagram-title">📧 Email Notification Triggers</div>
+                <div class="mermaid">
+                    flowchart LR
+                    A[Form Created] -->|Email| B[Approver Step 1]
+                    B -->|Approve| C[Email Approver Step 2]
+                    B -->|Reject| D[Email Creator: Rejected]
+                    C -->|Approve| E[Email Approver Step 3]
+                    C -->|Reject| D
+                    E -->|Approve| F[Email Creator: Approved]
+                    E -->|Reject| D
+                </div>
+            </div>
+
+            <h2>9.3 Signed URL</h2>
+            <div class="info-box note">
+                <strong>🔐 Keamanan Approval</strong>
+                Setiap email approval berisi <strong>Signed URL</strong> yang valid selama 7 hari. URL ini memungkinkan
+                approver untuk langsung approve/reject tanpa login ke sistem, namun tetap aman karena menggunakan
+                enkripsi cryptographic.
+            </div>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Fitur</th>
+                        <th>Deskripsi</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Signed URL Expiry</td>
+                        <td>7 hari sejak email dikirim</td>
+                    </tr>
+                    <tr>
+                        <td>Digital Signature</td>
+                        <td>Approver dapat menggambar atau upload tanda tangan</td>
+                    </tr>
+                    <tr>
+                        <td>Notes</td>
+                        <td>Approver dapat menambahkan catatan saat approve/reject</td>
+                    </tr>
+                    <tr>
+                        <td>Test Mode</td>
+                        <td>Semua email dialihkan ke test email saat development</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- SECTION 10: APPENDIX -->
+        <div class="section section-break">
+            <h1>10. Lampiran</h1>
+
+            <h2>10.1 Special Approvers</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Role</th>
+                        <th>Nama</th>
+                        <th>Email</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Ketua Yayasan</strong></td>
+                        <td>Juarsa Oemardikarta</td>
+                        <td>juarsa.oemardikarta@edelweiss.sch.id</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Accounting</strong></td>
+                        <td>Titis Rahmawati Wijiastuti</td>
+                        <td>titis.wijiastuti@edelweiss.sch.id</td>
+                    </tr>
+                    <tr>
+                        <td><strong>HRD</strong></td>
+                        <td>Juarsa Oemardikarta</td>
+                        <td>juarsa.oemardikarta@edelweiss.sch.id</td>
+                    </tr>
+                    <tr>
+                        <td><strong>ICT</strong></td>
+                        <td>Juarsa Oemardikarta</td>
+                        <td>juarsa.oemardikarta@edelweiss.sch.id</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h2>10.2 Konfigurasi Teknis</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Parameter</th>
+                        <th>Value</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Email Provider</td>
+                        <td>Microsoft Graph API</td>
+                    </tr>
+                    <tr>
+                        <td>Signed URL Validity</td>
+                        <td>7 days</td>
+                    </tr>
+                    <tr>
+                        <td>Max Upload Size</td>
+                        <td>10 MB</td>
+                    </tr>
+                    <tr>
+                        <td>Supported File Types</td>
+                        <td>PDF, JPG, PNG, DOCX, XLSX</td>
+                    </tr>
+                    <tr>
+                        <td>Session Timeout</td>
+                        <td>2 hours</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h2>10.3 Glossary</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Istilah</th>
+                        <th>Definisi</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>PR</strong></td>
+                        <td>Purchase Requisition - Formulir permintaan pembelian</td>
+                    </tr>
+                    <tr>
+                        <td><strong>BPMN</strong></td>
+                        <td>Business Process Model and Notation - Standar notasi diagram proses bisnis</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Signed URL</strong></td>
+                        <td>URL terenkripsi untuk akses sementara tanpa login</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Koordinator</strong></td>
+                        <td>Pimpinan unit/departemen yang menjadi atasan langsung</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Leave Quota</strong></td>
+                        <td>Jatah cuti tahunan karyawan</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="info-box success" style="margin-top: 40px;">
+                <strong>✅ Dokumen Selesai</strong>
+                Dokumen ini dapat dicetak langsung menggunakan fungsi Print (Ctrl+P / Cmd+P) pada browser. Layout telah
+                dioptimalkan untuk kertas A4.
+            </div>
+        </div>
+
+        <!-- FOOTER -->
+        <div
+            style="margin-top: 50px; padding-top: 20px; border-top: 2px solid var(--border); text-align: center; color: var(--text-muted); font-size: 9pt;">
+            <p><strong>ISO Digital System - Business Process Documentation</strong></p>
+            <p>Yayasan Pendidikan Edelweiss • Januari 2026 • Versi 1.0</p>
+            <p style="margin-top: 10px; font-style: italic;">Dokumen ini bersifat rahasia dan hanya untuk penggunaan
+                internal.</p>
+        </div>
+
+    </div>
+
+</body>
+
+</html>

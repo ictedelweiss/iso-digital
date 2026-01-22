@@ -45,7 +45,7 @@ class AdminPanelProvider extends PanelProvider
                 'Documents',
                 'Settings',
                 'Asset Management',
-                // 'HRD Management', // Requires database migration - disabled for now
+                'HRD Management',
             ])
             ->sidebarCollapsibleOnDesktop()
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\\Filament\\Resources')

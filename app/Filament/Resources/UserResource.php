@@ -35,6 +35,14 @@ class UserResource extends Resource
                             ->required()
                             ->unique(ignoreRecord: true)
                             ->maxLength(255),
+                        Forms\Components\TextInput::make('display_name')
+                            ->label('Nama Lengkap')
+                            ->required()
+                            ->maxLength(255),
+                        Forms\Components\TextInput::make('ms_email')
+                            ->label('Email Microsoft 365')
+                            ->email()
+                            ->maxLength(255),
                         Forms\Components\TextInput::make('password')
                             ->password()
                             ->dehydrateStateUsing(fn($state) => Hash::make($state))
@@ -58,7 +66,18 @@ class UserResource extends Resource
     {
         return $table
             ->columns([
+                Tables\Columns\TextColumn::make('display_name')
+                    ->label('Nama Lengkap')
+                    ->searchable()
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('ms_email')
+                    ->label('Email')
+                    ->searchable()
+                    ->sortable()
+                    ->icon('heroicon-m-envelope')
+                    ->copyable(),
                 Tables\Columns\TextColumn::make('username')
+                    ->label('Username')
                     ->searchable()
                     ->sortable(),
                 Tables\Columns\BadgeColumn::make('role')

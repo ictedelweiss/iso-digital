@@ -164,6 +164,7 @@ class LeaveQuotaResource extends Resource
 
                 Tables\Columns\TextColumn::make('department')
                     ->label('Department')
+                    ->formatStateUsing(fn($state) => config('approval.departments')[$state] ?? $state)
                     ->searchable()
                     ->sortable(),
 
@@ -175,20 +176,20 @@ class LeaveQuotaResource extends Resource
 
                 Tables\Columns\TextColumn::make('previous_year_quota')
                     ->label('Previous Year')
-                    ->numeric(decimalPlaces: 1)
+                    ->numeric(decimalPlaces: 0)
                     ->suffix(' days')
                     ->sortable(),
 
                 Tables\Columns\TextColumn::make('current_year_quota')
                     ->label('Current Year')
-                    ->numeric(decimalPlaces: 1)
+                    ->numeric(decimalPlaces: 0)
                     ->suffix(' days')
                     ->sortable(),
 
                 Tables\Columns\TextColumn::make('total_quota')
                     ->label('Total Quota')
                     ->state(fn($record) => $record->total_quota)
-                    ->numeric(decimalPlaces: 1)
+                    ->numeric(decimalPlaces: 0)
                     ->suffix(' days')
                     ->sortable()
                     ->weight('bold')
@@ -196,7 +197,7 @@ class LeaveQuotaResource extends Resource
 
                 Tables\Columns\TextColumn::make('quota_used')
                     ->label('Used')
-                    ->numeric(decimalPlaces: 1)
+                    ->numeric(decimalPlaces: 0)
                     ->suffix(' days')
                     ->sortable()
                     ->color('warning'),
@@ -204,7 +205,7 @@ class LeaveQuotaResource extends Resource
                 Tables\Columns\TextColumn::make('remaining_quota')
                     ->label('Remaining')
                     ->state(fn($record) => $record->remaining_quota)
-                    ->numeric(decimalPlaces: 1)
+                    ->numeric(decimalPlaces: 0)
                     ->suffix(' days')
                     ->sortable()
                     ->weight('bold')

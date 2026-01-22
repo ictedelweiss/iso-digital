@@ -9,4 +9,9 @@ use Filament\Resources\Pages\CreateRecord;
 class CreateLeaveQuota extends CreateRecord
 {
     protected static string $resource = LeaveQuotaResource::class;
+
+    protected function getRedirectUrl(): string
+    {
+        return $this->getResource()::getUrl('index');
+    }
 }

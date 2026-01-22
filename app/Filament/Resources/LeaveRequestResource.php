@@ -179,6 +179,7 @@ class LeaveRequestResource extends Resource
                     ->collapsible(),
 
                 Forms\Components\Section::make('Status')
+                    ->hidden(fn(string $context): bool => $context === 'create')
                     ->schema([
                         Forms\Components\Select::make('status')
                             ->options([
