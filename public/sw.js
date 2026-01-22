@@ -1,6 +1,6 @@
 // Service Worker for ISO Digital PWA
-const CACHE_NAME = 'iso-digital-v1.0.0';
-const BASE_PATH = '/iso-digital/laravel-app';
+const CACHE_NAME = 'iso-digital-v1.0.1';
+const BASE_PATH = '';
 
 const STATIC_ASSETS = [
     `${BASE_PATH}/`,
