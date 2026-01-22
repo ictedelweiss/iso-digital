@@ -152,6 +152,25 @@ class AdminPanelProvider extends PanelProvider
                                 installPrompt.remove();
                             });
                         });
+                        
+                        // Mobile Sidebar Toggle Fix
+                        document.addEventListener('DOMContentLoaded', () => {
+                            // Ensure sidebar toggle button is always visible on mobile
+                            if (window.innerWidth <= 768) {
+                                const style = document.createElement('style');
+                                style.textContent = `
+                                    @media (max-width: 768px) {
+                                        /* Force sidebar toggle button to show */
+                                        [x-data*="sidebar"],
+                                        .fi-sidebar-open-btn,
+                                        button[aria-label*="navigation"] {
+                                            display: flex !important;
+                                        }
+                                    }
+                                `;
+                                document.head.appendChild(style);
+                            }
+                        });
                     </script>
                 '
             )

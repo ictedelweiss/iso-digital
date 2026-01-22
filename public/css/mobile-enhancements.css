@@ -17,9 +17,10 @@
 
 /* Improve touch targets - minimum 44x44px for accessibility */
 @media (max-width: 768px) {
-    button, 
-    a, 
-    input[type="button"], 
+
+    button,
+    a,
+    input[type="button"],
     input[type="submit"],
     .fi-btn,
     .fi-ta-actions button {
@@ -28,14 +29,50 @@
         padding: 12px 16px !important;
     }
 
-    /* Filament sidebar - better mobile behavior */
-    .fi-sidebar {
-        transform: translateX(-100%);
-        transition: transform 0.3s ease-in-out;
+    /* ====================================
+       FILAMENT SIDEBAR MOBILE FIX
+       ==================================== */
+
+    /* Make sure sidebar toggle button is visible */
+    .fi-sidebar-open-btn,
+    button[x-on\:click*="$store.sidebar.open"],
+    button[aria-label*="sidebar"],
+    button[aria-label*="menu"] {
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        min-width: 44px !important;
+        min-height: 44px !important;
+        opacity: 1 !important;
+        visibility: visible !important;
+        z-index: 50 !important;
     }
 
-    .fi-sidebar.open {
-        transform: translateX(0);
+    /* Ensure topbar has the sidebar toggle button visible */
+    .fi-topbar-start {
+        display: flex !important;
+        gap: 8px !important;
+    }
+
+    /* Sidebar positioning for mobile */
+    .fi-sidebar {
+        position: fixed !important;
+        top: 0 !important;
+        left: 0 !important;
+        bottom: 0 !important;
+        width: 80vw !important;
+        max-width: 300px !important;
+        z-index: 60 !important;
+        background: rgb(17, 24, 39) !important;
+        box-shadow: 4px 0 20px rgba(0, 0, 0, 0.3) !important;
+    }
+
+    /* Sidebar overlay backdrop */
+    .fi-sidebar-close-overlay {
+        position: fixed !important;
+        inset: 0 !important;
+        background: rgba(0, 0, 0, 0.5) !important;
+        z-index: 50 !important;
     }
 
     /* Mobile header with safe area */
@@ -43,6 +80,9 @@
         padding-top: var(--safe-area-inset-top) !important;
         padding-left: var(--safe-area-inset-left) !important;
         padding-right: var(--safe-area-inset-right) !important;
+        position: sticky !important;
+        top: 0 !important;
+        z-index: 40 !important;
     }
 
     /* Main content area with safe bottom spacing */
@@ -59,7 +99,8 @@
     input[type="date"],
     select,
     textarea {
-        font-size: 16px !important; /* Prevents iOS zoom on focus */
+        font-size: 16px !important;
+        /* Prevents iOS zoom on focus */
         min-height: 48px !important;
         padding: 12px !important;
     }
@@ -209,10 +250,13 @@
     }
 
     @keyframes swipePulse {
-        0%, 100% {
+
+        0%,
+        100% {
             transform: translateY(-50%) translateX(0);
             opacity: 0.7;
         }
+
         50% {
             transform: translateY(-50%) translateX(5px);
             opacity: 1;
@@ -249,12 +293,10 @@
    ==================================== */
 
 .skeleton {
-    background: linear-gradient(
-        90deg,
-        rgba(255, 255, 255, 0.05) 25%,
-        rgba(255, 255, 255, 0.15) 50%,
-        rgba(255, 255, 255, 0.05) 75%
-    );
+    background: linear-gradient(90deg,
+            rgba(255, 255, 255, 0.05) 25%,
+            rgba(255, 255, 255, 0.15) 50%,
+            rgba(255, 255, 255, 0.05) 75%);
     background-size: 200% 100%;
     animation: skeleton-loading 1.5s ease-in-out infinite;
     border-radius: 8px;
@@ -264,6 +306,7 @@
     0% {
         background-position: 200% 0;
     }
+
     100% {
         background-position: -200% 0;
     }
@@ -338,6 +381,7 @@ button,
    ==================================== */
 
 @media (max-width: 768px) {
+
     .fi-notification,
     .filament-notification {
         left: 12px !important;
@@ -373,6 +417,7 @@ button,
    ==================================== */
 
 @supports (-webkit-touch-callout: none) {
+
     /* iOS Safari specific styles */
     input,
     textarea,
@@ -490,6 +535,7 @@ button,
    ==================================== */
 
 @media (prefers-reduced-motion: reduce) {
+
     *,
     *::before,
     *::after {
