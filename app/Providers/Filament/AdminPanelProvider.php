@@ -47,7 +47,7 @@ class AdminPanelProvider extends PanelProvider
                 'Asset Management',
                 'HRD Management',
             ])
-            ->sidebarCollapsibleOnDesktop()
+            ->sidebarCollapsibleOnDesktop(false)  // Disable auto-collapse for better mobile support
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\\Filament\\Resources')
             ->discoverPages(in: app_path('Filament/Pages'), for: 'App\\Filament\\Pages')
             ->pages([
