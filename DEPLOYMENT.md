@@ -116,3 +116,68 @@ git push origin main
 git pull origin main
 bash deploy.sh
 ```
+
+## 📱 PWA (Progressive Web App) Features
+
+Aplikasi ini sudah dilengkapi dengan fitur PWA untuk mobile-friendly experience.
+
+### PWA Files
+- `public/manifest.json` - PWA manifest configuration
+- `public/sw.js` - Service worker untuk offline support
+- `public/offline.html` - Offline fallback page
+- `public/css/mobile-enhancements.css` - Mobile responsive CSS
+- `public/icons/` - PWA icons (8 sizes)
+- `public/apple-touch-icon.png` - iOS home screen icon
+
+### HTTPS Requirement untuk Production
+> **⚠️ PENTING:** Service worker hanya berfungsi di HTTPS (kecuali localhost).
+
+Pastikan hosting sudah menggunakan SSL/HTTPS:
+```
+https://iso-digital.eliteacademia.id
+```
+
+### Generate PWA Icons
+Jika logo berubah, generate ulang icons:
+
+```bash
+chmod +x generate-icons.sh
+./generate-icons.sh
+```
+
+### Cara Install PWA ke Smartphone
+
+**Android (Chrome):**
+1. Buka `https://iso-digital.eliteacademia.id/admin`
+2. Klik "Add to Home Screen" di Chrome menu
+3. Icon akan muncul di home screen
+
+**iOS (Safari):**
+1. Buka `https://iso-digital.eliteacademia.id/admin`
+2. Tap Share → "Add to Home Screen"
+3. Icon akan muncul di home screen
+
+### Verify PWA Installation
+
+**Browser DevTools:**
+1. Buka Chrome DevTools (F12)
+2. Tab "Application"
+3. Check:
+   - ✅ Manifest loaded
+   - ✅ Service Worker registered
+   - ✅ Icons all present
+
+**Lighthouse Audit:**
+```bash
+# Chrome DevTools → Lighthouse → PWA
+# Target score: 90+/100
+```
+
+### PWA Features
+- ✅ Install to home screen (Android & iOS)
+- ✅ Offline support dengan caching
+- ✅ Touch-friendly UI untuk mobile
+- ✅ Bottom navigation bar di mobile
+- ✅ Safe area insets untuk notch displays
+- ✅ Standalone mode (fullscreen tanpa browser UI)
+

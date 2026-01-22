@@ -78,7 +78,82 @@ class AdminPanelProvider extends PanelProvider
             )
             ->renderHook(
                 'panels::head.end',
-                fn() => '<link rel="stylesheet" href="' . asset('css/admin-theme.css') . '">'
+                fn() => '
+                    <link rel="stylesheet" href="' . asset('css/admin-theme.css') . '">
+                    <link rel="stylesheet" href="' . asset('css/mobile-enhancements.css') . '">
+                    
+                    <!-- PWA Manifest -->
+                    <link rel="manifest" href="' . asset('manifest.json') . '">
+                    
+                    <!-- PWA Meta Tags -->
+                    <meta name="theme-color" content="#005f89">
+                    <meta name="mobile-web-app-capable" content="yes">
+                    <meta name="apple-mobile-web-app-capable" content="yes">
+                    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+                    <meta name="apple-mobile-web-app-title" content="ISO Digital">
+                    
+                    <!-- Apple Touch Icon -->
+                    <link rel="apple-touch-icon" href="' . asset('apple-touch-icon.png') . '">
+                    
+                    <!-- Viewport for mobile -->
+                    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+                    
+                    <!-- Service Worker Registration -->
+                    <script>
+                        if ("serviceWorker" in navigator) {
+                            window.addEventListener("load", () => {
+                                navigator.serviceWorker
+                                    .register("' . asset('sw.js') . '")
+                                    .then((registration) => {
+                                        console.log("[PWA] Service Worker registered:", registration.scope);
+                                    })
+                                    .catch((error) => {
+                                        console.log("[PWA] Service Worker registration failed:", error);
+                                    });
+                            });
+                        }
+                        
+                        // PWA Install Prompt
+                        let deferredPrompt;
+                        window.addEventListener("beforeinstallprompt", (e) => {
+                            e.preventDefault();
+                            deferredPrompt = e;
+                            
+                            // Show custom install UI
+                            const installPrompt = document.createElement("div");
+                            installPrompt.className = "pwa-install-prompt";
+                            installPrompt.innerHTML = `
+                                <div class="icon">📱</div>
+                                <div class="content">
+                                    <div class="title">Install ISO Digital</div>
+                                    <div class="description">Akses lebih cepat seperti aplikasi</div>
+                                </div>
+                                <div class="actions">
+                                    <button class="install-btn">Install</button>
+                                    <button class="dismiss-btn">✕</button>
+                                </div>
+                            `;
+                            
+                            document.body.appendChild(installPrompt);
+                            
+                            setTimeout(() => {
+                                installPrompt.classList.add("show");
+                            }, 100);
+                            
+                            installPrompt.querySelector(".install-btn").addEventListener("click", async () => {
+                                deferredPrompt.prompt();
+                                const { outcome } = await deferredPrompt.userChoice;
+                                console.log(`[PWA] User response: ${outcome}`);
+                                installPrompt.remove();
+                                deferredPrompt = null;
+                            });
+                            
+                            installPrompt.querySelector(".dismiss-btn").addEventListener("click", () => {
+                                installPrompt.remove();
+                            });
+                        });
+                    </script>
+                '
             )
             ->renderHook(
                 'panels::body.start',
