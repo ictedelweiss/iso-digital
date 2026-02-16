@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Auth\MicrosoftController;
+use App\Http\Controllers\HelpdeskController;
 use App\Http\Controllers\MeetingController;
 use App\Http\Controllers\MeetingPdfController;
 use Illuminate\Support\Facades\Route;
@@ -21,6 +22,13 @@ Route::prefix('meeting')->name('meeting.')->group(function () {
 Route::prefix('auth')->name('auth.')->group(function () {
     Route::get('/microsoft', [MicrosoftController::class , 'redirect'])->name('microsoft');
     Route::get('/microsoft/callback', [MicrosoftController::class , 'callback'])->name('microsoft.callback');
+});
+
+// ICT Helpdesk Public Routes
+Route::prefix('helpdesk')->name('helpdesk.')->group(function () {
+    Route::get('/', [HelpdeskController::class , 'create'])->name('create');
+    Route::post('/', [HelpdeskController::class , 'store'])->name('store');
+    Route::get('/success/{ticket}', [HelpdeskController::class , 'success'])->name('success');
 });
 
 // Dedicated Approval Routes

@@ -121,7 +121,7 @@ class User extends Authenticatable implements FilamentUser
      */
     public function purchaseRequisitions(): HasMany
     {
-        return $this->hasMany(PurchaseRequisition::class, 'created_by');
+        return $this->hasMany(PurchaseRequisition::class , 'created_by');
     }
 
     /**
@@ -129,7 +129,7 @@ class User extends Authenticatable implements FilamentUser
      */
     public function leaveRequests(): HasMany
     {
-        return $this->hasMany(LeaveRequest::class, 'created_by');
+        return $this->hasMany(LeaveRequest::class , 'created_by');
     }
 
     /**
@@ -137,6 +137,14 @@ class User extends Authenticatable implements FilamentUser
      */
     public function handoverForms(): HasMany
     {
-        return $this->hasMany(HandoverForm::class, 'created_by');
+        return $this->hasMany(HandoverForm::class , 'created_by');
+    }
+
+    /**
+     * Get the user's ICT helpdesk tickets
+     */
+    public function ictTickets(): HasMany
+    {
+        return $this->hasMany(IctTicket::class , 'user_id');
     }
 }
