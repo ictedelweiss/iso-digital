@@ -92,9 +92,6 @@ class AdminPanelProvider extends PanelProvider
                     <meta name="apple-mobile-web-app-capable" content="yes">
                     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
                     <meta name="apple-mobile-web-app-title" content="ISO Digital">
-
-                    <!-- Signature Pad Library (Global) -->
-                    <script src="https://cdn.jsdelivr.net/npm/signature_pad@4.0.0/dist/signature_pad.umd.min.js"></script>
                     
                     <!-- Apple Touch Icon -->
                     <link rel="apple-touch-icon" href="' . asset('apple-touch-icon.png') . '">
@@ -116,13 +113,13 @@ class AdminPanelProvider extends PanelProvider
                                     });
                             });
                         }
-
+                        
                         // PWA Install Prompt
                         let deferredPrompt;
                         window.addEventListener("beforeinstallprompt", (e) => {
                             e.preventDefault();
                             deferredPrompt = e;
-
+                            
                             // Show custom install UI
                             const installPrompt = document.createElement("div");
                             installPrompt.className = "pwa-install-prompt";
@@ -137,13 +134,13 @@ class AdminPanelProvider extends PanelProvider
                                     <button class="dismiss-btn">✕</button>
                                 </div>
                             `;
-
+                            
                             document.body.appendChild(installPrompt);
-
+                            
                             setTimeout(() => {
                                 installPrompt.classList.add("show");
                             }, 100);
-
+                            
                             installPrompt.querySelector(".install-btn").addEventListener("click", async () => {
                                 deferredPrompt.prompt();
                                 const { outcome } = await deferredPrompt.userChoice;
@@ -151,7 +148,7 @@ class AdminPanelProvider extends PanelProvider
                                 installPrompt.remove();
                                 deferredPrompt = null;
                             });
-
+                            
                             installPrompt.querySelector(".dismiss-btn").addEventListener("click", () => {
                                 installPrompt.remove();
                             });

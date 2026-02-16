@@ -21,6 +21,6 @@ return [
         'name' => 'ISO Digital',
         'env' => 'production',
         'debug' => false,
-        'url' => 'https://eliteacademia.id/iso-digital',
+        'url' => 'https://iso-digital.eliteacademia.id',
     ],
 ];
