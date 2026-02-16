@@ -14,7 +14,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        //
+    //
     }
 
     /**
@@ -27,13 +27,10 @@ class AppServiceProvider extends ServiceProvider
             \Illuminate\Support\Facades\URL::forceRootUrl(config('app.url'));
         }
 
-        // Configure Livewire for subdirectory (Apache Alias)
-        \Livewire\Livewire::setScriptRoute(function ($handle) {
-            return \Illuminate\Support\Facades\Route::get('/iso-digital/laravel-app/livewire/livewire.js', $handle);
-        });
-
+        // Configure Livewire update route for subdirectory deployment
+        // We omit the leading slash because Livewire's getUpdateUri() will add it automatically
         \Livewire\Livewire::setUpdateRoute(function ($handle) {
-            return \Illuminate\Support\Facades\Route::post('/iso-digital/laravel-app/livewire/update', $handle);
+            return \Illuminate\Support\Facades\Route::post('laravel-app/public/livewire/update', $handle);
         });
 
         // Register Azure Socialite Provider
@@ -44,10 +41,10 @@ class AppServiceProvider extends ServiceProvider
         // Register Microsoft Graph Mail Driver
         \Illuminate\Support\Facades\Mail::extend('microsoft-graph', function (array $config = []) {
             return new \App\Mail\Transport\MicrosoftGraphTransport(
-                config('services.microsoft_graph.tenant_id'),
-                config('services.microsoft_graph.client_id'),
-                config('services.microsoft_graph.client_secret'),
-                config('services.microsoft_graph.from_address')
+            config('services.microsoft_graph.tenant_id'),
+            config('services.microsoft_graph.client_id'),
+            config('services.microsoft_graph.client_secret'),
+            config('services.microsoft_graph.from_address')
             );
         });
     }

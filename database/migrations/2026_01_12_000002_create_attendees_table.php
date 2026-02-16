@@ -10,20 +10,22 @@ return new class extends Migration {
      */
     public function up(): void
     {
-        Schema::create('attendees', function (Blueprint $table) {
-            $table->id();
-            $table->string('meeting_id');
-            $table->string('name');
-            $table->string('division');
-            $table->string('signature_path')->nullable();
-            $table->timestamp('created_at')->nullable();
+        if (!Schema::hasTable('attendees')) {
+            Schema::create('attendees', function (Blueprint $table) {
+                $table->id();
+                $table->string('meeting_id');
+                $table->string('name');
+                $table->string('division');
+                $table->string('signature_path')->nullable();
+                $table->timestamp('created_at')->nullable();
 
-            // Foreign key constraint
-            $table->foreign('meeting_id')
-                ->references('id')
-                ->on('meetings')
-                ->onDelete('cascade');
-        });
+                // Foreign key constraint
+                $table->foreign('meeting_id')
+                    ->references('id')
+                    ->on('meetings')
+                    ->onDelete('cascade');
+            });
+        }
     }
 
     /**

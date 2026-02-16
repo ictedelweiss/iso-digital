@@ -69,8 +69,28 @@ class LeavePdfController extends Controller
             }
         }
 
+        // Fetch Quota Data
+        $userId = $record->created_by;
+        $quota = \App\Models\LeaveQuota::where('user_id', $userId)
+            ->where('quota_year', date('Y')) // Assuming current year quota
+            ->first();
+
+        // Prepare quota data structure
+        $quotaData = [
+            'previous' => $quota ? $quota->previous_year_quota : 0,
+            'current' => $quota ? $quota->current_year_quota : 12,
+            'total' => $quota ? $quota->total_quota : 12,
+            'used' => $quota ? $quota->quota_used : 0,
+            'remaining' => $quota ? $quota->remaining_quota : 12,
+            'request' => $record->request_days,
+            'remaining_after' => ($quota ? $quota->remaining_quota : 12) - $record->request_days,
+            'year' => date('Y'),
+            'date_now' => date('d/m/Y'),
+        ];
+
         $data = [
             'leave' => $record,
+            'quota' => $quotaData,
             'logoSrc' => $logoSrc,
             'signaturePemohon' => $signaturePemohon,
             'signatures' => $signatures,

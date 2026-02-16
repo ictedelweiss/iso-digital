@@ -22,10 +22,10 @@ class CustomLogin extends BaseLogin
     {
         return $form
             ->schema([
-                $this->getEmailFormComponent(),
-                $this->getPasswordFormComponent(),
-                $this->getRememberFormComponent(),
-            ])
+            $this->getEmailFormComponent(),
+            $this->getPasswordFormComponent(),
+            $this->getRememberFormComponent(),
+        ])
             ->statePath('data');
     }
 
@@ -61,7 +61,8 @@ class CustomLogin extends BaseLogin
     {
         try {
             $this->rateLimit(5);
-        } catch (TooManyRequestsException $exception) {
+        }
+        catch (TooManyRequestsException $exception) {
             Notification::make()
                 ->title('Terlalu banyak percobaan login')
                 ->body('Silakan coba lagi dalam ' . ceil($exception->secondsUntilAvailable / 60) . ' menit.')
@@ -123,5 +124,12 @@ class CustomLogin extends BaseLogin
     protected function hasFullWidthFormActions(): bool
     {
         return true;
+    }
+
+    public function getHeadContent(): string
+    {
+        $baseUrl = config('app.url');
+        return "<base href='{$baseUrl}/'>
+";
     }
 }

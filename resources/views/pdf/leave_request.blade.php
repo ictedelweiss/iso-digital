@@ -277,46 +277,47 @@
             <li>
                 <table class="calc-table">
                     <tr>
-                        <td class="calc-label">Hak Cuti Thn. .......... (sebelumnya)</td>
+                        <td class="calc-label">Hak Cuti Thn. {{ $quota['year'] - 1 }} (sebelumnya)</td>
                         <td class="calc-eq">=</td>
-                        <td class="calc-val"></td>
+                        <td class="calc-val">{{ number_format($quota['previous'], 0) }}</td>
                         <td class="calc-unit">Hari</td>
                     </tr>
                     <tr>
-                        <td class="calc-label"><strong>Hak Cuti Thn. .......... (berjalan)</strong></td>
+                        <td class="calc-label"><strong>Hak Cuti Thn. {{ $quota['year'] }} (berjalan)</strong></td>
                         <td class="calc-eq">=</td>
-                        <td class="calc-val"></td>
+                        <td class="calc-val">{{ number_format($quota['current'], 0) }}</td>
                         <td class="calc-unit">+/+</td>
                     </tr>
                     <tr>
                         <td class="calc-label">Total Hak Cuti</td>
                         <td class="calc-eq">=</td>
-                        <td class="calc-val"></td>
+                        <td class="calc-val">{{ number_format($quota['total'], 0) }}</td>
                         <td class="calc-unit">Hari</td>
                     </tr>
                     <tr>
-                        <td class="calc-label"><strong>Cuti yang telah diambil s/d .................. (hari ini
-                                )</strong></td>
+                        <td class="calc-label"><strong>Cuti yang telah diambil s/d {{ $quota['date_now'] }} (hari
+                                ini)</strong></td>
                         <td class="calc-eq">=</td>
-                        <td class="calc-val"></td>
+                        <td class="calc-val">{{ number_format($quota['used'], 0) }}</td>
                         <td class="calc-unit">Hari -/-</td>
                     </tr>
                     <tr>
                         <td class="calc-label">Sisa Cuti</td>
                         <td class="calc-eq">=</td>
-                        <td class="calc-val"></td>
+                        <td class="calc-val">{{ number_format($quota['remaining'], 0) }}</td>
                         <td class="calc-unit">Hari</td>
                     </tr>
                     <tr>
                         <td class="calc-label">Permohonan Cuti</td>
                         <td class="calc-eq">=</td>
-                        <td class="calc-val"></td>
+                        <td class="calc-val">{{ number_format($quota['request'], 0) }}</td>
                         <td class="calc-unit">Hari -/-</td>
                     </tr>
                     <tr>
-                        <td class="calc-label"><strong>Sisa Cuti Per ............... (tanggal hari ini)</strong></td>
+                        <td class="calc-label"><strong>Sisa Cuti Per {{ $quota['date_now'] }} (tanggal hari
+                                ini)</strong></td>
                         <td class="calc-eq">=</td>
-                        <td class="calc-val"></td>
+                        <td class="calc-val">{{ number_format($quota['remaining_after'], 0) }}</td>
                         <td class="calc-unit"><strong>Hari</strong></td>
                     </tr>
                 </table>

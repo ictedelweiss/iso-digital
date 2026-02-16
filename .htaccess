@@ -1,0 +1,15 @@
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    
+    # Handle Livewire routes
+    RewriteRule ^livewire/(.*)$ public/index.php/livewire/$1 [L,QSA]
+    
+    # Handle admin routes
+    RewriteRule ^admin(.*)$ public/index.php/admin$1 [L,QSA]
+    
+    # Forward everything else to public directory
+    RewriteCond %{REQUEST_URI} !^/public/
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteRule ^(.*)$ public/$1 [L,QSA]
+</IfModule>

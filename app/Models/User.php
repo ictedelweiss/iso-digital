@@ -34,6 +34,7 @@ class User extends Authenticatable implements FilamentUser
         'ms_id',
         'ms_email',
         'display_name',
+        'division',
         'signature_path',
     ];
 
@@ -86,7 +87,7 @@ class User extends Authenticatable implements FilamentUser
      */
     public function getNameAttribute(): string
     {
-        return $this->username;
+        return $this->display_name ?: $this->username;
     }
 
     /**

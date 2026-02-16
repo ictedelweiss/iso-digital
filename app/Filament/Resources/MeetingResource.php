@@ -40,6 +40,15 @@ class MeetingResource extends Resource
                             ->unique(ignoreRecord: true)
                             ->maxLength(255)
                             ->helperText('Kode unik untuk QR absensi'),
+                        Forms\Components\Select::make('type')
+                            ->label('Tipe Meeting')
+                            ->options([
+                                'internal' => 'Internal',
+                                'external' => 'External',
+                            ])
+                            ->default('internal')
+                            ->required()
+                            ->helperText('Internal: Wajib login & 1x absen. External: Tamu bisa absen tanpa login.'),
                         Forms\Components\Textarea::make('title')
                             ->label('Judul Meeting')
                             ->required()
@@ -111,6 +120,13 @@ class MeetingResource extends Resource
                         Components\TextEntry::make('id')
                             ->label('Kode Meeting')
                             ->copyable(),
+                        Components\TextEntry::make('type')
+                            ->label('Tipe')
+                            ->badge()
+                            ->color(fn(string $state): string => match ($state) {
+                                'internal' => 'info',
+                                'external' => 'warning',
+                            }),
                         Components\TextEntry::make('title')
                             ->label('Judul'),
                         Components\TextEntry::make('created_at')

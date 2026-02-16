@@ -13,17 +13,31 @@ class MeetingPdfController extends Controller
      */
     public function generate(string $meetingId)
     {
-        $meeting = Meeting::with('attendees')->findOrFail($meetingId);
+        try {
+            \Illuminate\Support\Facades\Log::info('PDF Generation Started', ['meetingId' => $meetingId]);
 
-        $pdf = Pdf::loadView('pdf.meeting-attendance', [
-            'meeting' => $meeting,
-            'attendees' => $meeting->attendees()->orderBy('created_at')->get(),
-        ]);
+            $meeting = Meeting::with('attendees')->findOrFail($meetingId);
+            \Illuminate\Support\Facades\Log::info('Meeting Found', ['title' => $meeting->title]);
 
-        // Sanitize filename
-        $safeTitle = \Illuminate\Support\Str::slug($meeting->title, '_');
-        $filename = 'Absensi_' . $safeTitle . '_' . date('Y-m-d') . '.pdf';
+            $pdf = Pdf::loadView('pdf.meeting-attendance', [
+                'meeting' => $meeting,
+                'attendees' => $meeting->attendees()->orderBy('created_at')->get(),
+            ]);
+            \Illuminate\Support\Facades\Log::info('PDF View Loaded');
 
-        return $pdf->download($filename);
+            // Sanitize filename
+            $safeTitle = \Illuminate\Support\Str::slug($meeting->title, '_');
+            $filename = 'Absensi_' . $safeTitle . '_' . date('Y-m-d') . '.pdf';
+
+            \Illuminate\Support\Facades\Log::info('PDF Generation Completed, downloading...');
+            return $pdf->download($filename);
+        }
+        catch (\Exception $e) {
+            \Illuminate\Support\Facades\Log::error('PDF Generation Error', [
+                'message' => $e->getMessage(),
+                'trace' => $e->getTraceAsString()
+            ]);
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
     }
 }

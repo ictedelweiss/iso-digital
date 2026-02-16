@@ -10,9 +10,11 @@ return new class extends Migration {
      */
     public function up(): void
     {
-        Schema::table('admins', function (Blueprint $table) {
-            $table->string('display_name')->nullable()->after('username');
-        });
+        if (Schema::hasTable('admins') && !Schema::hasColumn('admins', 'display_name')) {
+            Schema::table('admins', function (Blueprint $table) {
+                $table->string('display_name')->nullable()->after('username');
+            });
+        }
     }
 
     /**

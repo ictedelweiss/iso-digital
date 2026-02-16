@@ -247,20 +247,54 @@
 
                     <!-- Approve Section -->
                     <div id="approveSection" class="transition-all duration-300">
-                        <div
-                            class="border-2 border-dashed border-slate-300 rounded-2xl bg-slate-50 relative hover:border-sky-400 transition-colors">
-                            <canvas id="signature-pad"
-                                class="w-full h-48 rounded-2xl cursor-crosshair touch-none"></canvas>
+                        @if(isset($hasSignature) && $hasSignature)
+                            <div id="storedSignatureInfo" class="p-4 bg-blue-50 border border-blue-200 rounded-lg mb-3">
+                                <div class="flex items-center text-blue-800">
+                                    <span class="text-xl mr-2">✍️</span>
+                                    <div>
+                                        <strong>Signature Available</strong>
+                                        <p class="text-sm">Your stored digital signature will be used.</p>
+                                    </div>
+                                </div>
+                                <button type="button" class="mt-3 text-sm text-blue-600 underline" onclick="showSignaturePad()">
+                                    Change or Draw New Signature
+                                </button>
+                            </div>
+
+                            <div id="signatureContainer" style="display: none;">
+                                <div
+                                    class="border-2 border-dashed border-slate-300 rounded-2xl bg-slate-50 relative hover:border-sky-400 transition-colors">
+                                    <canvas id="signature-pad"
+                                        class="w-full h-48 rounded-2xl cursor-crosshair touch-none"></canvas>
+                                    <div
+                                        class="absolute bottom-3 right-4 text-xs font-bold text-slate-400 pointer-events-none uppercase tracking-wide">
+                                        Draw Signature Above</div>
+                                </div>
+                                <div class="mt-2 flex justify-end space-x-3">
+                                    <button type="button" onclick="cancelChangeSignature()"
+                                        class="text-xs font-medium text-slate-500 hover:text-slate-700">Cancel</button>
+                                    <button type="button" onclick="clearSignature()"
+                                        class="text-xs font-medium text-red-500 hover:text-red-700 hover:underline">Clear
+                                        Signature</button>
+                                </div>
+                            </div>
+                        @else
                             <div
-                                class="absolute bottom-3 right-4 text-xs font-bold text-slate-400 pointer-events-none uppercase tracking-wide">
-                                Draw Signature Above</div>
-                        </div>
-                        <div class="mt-2 text-right">
-                            <button type="button" onclick="clearSignature()"
-                                class="text-xs font-medium text-red-500 hover:text-red-700 hover:underline">Clear
-                                Signature</button>
-                        </div>
+                                class="border-2 border-dashed border-slate-300 rounded-2xl bg-slate-50 relative hover:border-sky-400 transition-colors">
+                                <canvas id="signature-pad"
+                                    class="w-full h-48 rounded-2xl cursor-crosshair touch-none"></canvas>
+                                <div
+                                    class="absolute bottom-3 right-4 text-xs font-bold text-slate-400 pointer-events-none uppercase tracking-wide">
+                                    Draw Signature Above</div>
+                            </div>
+                            <div class="mt-2 text-right">
+                                <button type="button" onclick="clearSignature()"
+                                    class="text-xs font-medium text-red-500 hover:text-red-700 hover:underline">Clear
+                                    Signature</button>
+                            </div>
+                        @endif
                         <input type="hidden" name="signature" id="signatureInput">
+                        <input type="hidden" id="hasStoredSignature" value="{{ isset($hasSignature) && $hasSignature ? 'true' : 'false' }}">
 
                         <div class="mt-6">
                             <button type="submit"
@@ -335,6 +369,15 @@
         function prepareSubmit() {
             const action = document.getElementById('actionInput').value;
             if (action === 'approve') {
+                const hasStored = document.getElementById('hasStoredSignature')?.value === 'true';
+                const containerHidden = document.getElementById('signatureContainer') && document.getElementById('signatureContainer').style.display === 'none';
+
+                if (hasStored && containerHidden) {
+                    // Using stored signature, no canvas needed
+                    document.getElementById('signatureInput').value = ''; 
+                    return true;
+                }
+
                 if (signaturePad.isEmpty()) {
                     alert("Please provide a signature.");
                     return false;
@@ -342,6 +385,18 @@
                 document.getElementById('signatureInput').value = signaturePad.toDataURL(); // Save as Base64
             }
             return true;
+        }
+
+        function showSignaturePad() {
+            document.getElementById('storedSignatureInfo').style.display = 'none';
+            document.getElementById('signatureContainer').style.display = 'block';
+            resizeCanvas();
+        }
+
+        function cancelChangeSignature() {
+            document.getElementById('storedSignatureInfo').style.display = 'block';
+            document.getElementById('signatureContainer').style.display = 'none';
+            signaturePad.clear();
         }
     </script>
 

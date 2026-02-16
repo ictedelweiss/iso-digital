@@ -10,11 +10,13 @@ return new class extends Migration {
      */
     public function up(): void
     {
-        Schema::create('meetings', function (Blueprint $table) {
-            $table->string('id')->primary();
-            $table->text('title');
-            $table->timestamp('created_at')->nullable();
-        });
+        if (!Schema::hasTable('meetings')) {
+            Schema::create('meetings', function (Blueprint $table) {
+                $table->string('id')->primary();
+                $table->text('title');
+                $table->timestamp('created_at')->nullable();
+            });
+        }
     }
 
     /**

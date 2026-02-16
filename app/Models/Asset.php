@@ -141,26 +141,20 @@ class Asset extends Model
         $locationCode = $location?->code ?? 'XXX';
         $year = date('Y');
 
-        // Get next sequence untuk kategori dan tahun ini
-        $sequence = $this->getNextSequence($this->category_id, $year);
+        // Get next sequence untuk kategori, lokasi, dan tahun ini
+        $sequence = $this->getNextSequence($prefix, $locationCode, $year);
 
         return sprintf('%s-%s-%s-%06d', $prefix, $locationCode, $year, $sequence);
     }
 
     /**
-     * Get nomor urut berikutnya untuk kategori dan tahun tertentu
+     * Get nomor urut berikutnya untuk kategori, lokasi dan tahun tertentu
      */
-    private function getNextSequence(int $categoryId, string $year): int
+    private function getNextSequence(string $prefix, string $locationCode, string $year): int
     {
-        $category = Category::find($categoryId);
-        if (!$category) {
-            return 1;
-        }
-
-        $prefix = $category->prefix;
-
-        // Cari asset terakhir dengan prefix dan tahun yang sama
-        $lastAsset = static::where('asset_code', 'LIKE', "{$prefix}%-{$year}-%")
+        // Cari asset terakhir dengan prefix, lokasi, dan tahun yang sama
+        // Format: PREFIX-LOC-YYYY-NNNNNN
+        $lastAsset = static::where('asset_code', 'LIKE', "{$prefix}-{$locationCode}-{$year}-%")
             ->orderBy('asset_code', 'desc')
             ->first();
 
@@ -169,7 +163,6 @@ class Asset extends Model
         }
 
         // Extract nomor urut dari asset code
-        // Format: PREFIX-LOC-YYYY-NNNNNN
         $parts = explode('-', $lastAsset->asset_code);
         $lastSequence = (int) end($parts);
 

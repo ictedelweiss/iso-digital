@@ -28,6 +28,7 @@ class Meeting extends Model
     protected $fillable = [
         'id',
         'title',
+        'type',
         'created_at',
     ];
 

@@ -13,6 +13,12 @@ class ApprovalStatusWidget extends Widget
 
     protected int|string|array $columnSpan = 'full';
 
+    public static function canView(): bool
+    {
+        // Only show on resource view pages, not on the dashboard
+        return request()->routeIs('filament.admin.resources.*.view');
+    }
+
     public function getApprovalStatusData(): array
     {
         if (!$this->record) {
