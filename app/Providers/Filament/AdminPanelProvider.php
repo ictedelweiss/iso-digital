@@ -31,7 +31,9 @@ class AdminPanelProvider extends PanelProvider
             ->path('admin')
             ->login(\App\Filament\Pages\Auth\CustomLogin::class)
             ->profile(\App\Filament\Pages\Auth\EditProfile::class)
-            ->brandName('ISO Digital')
+            ->brandName('Edelweiss School')
+            ->brandLogo(asset('edelweiss-logo-horizontal.png'))
+            ->brandLogoHeight('2.5rem')
             ->favicon(asset('logo.jpg'))
             ->colors([
                 'primary' => Color::Blue,
