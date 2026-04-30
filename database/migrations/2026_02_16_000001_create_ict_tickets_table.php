@@ -12,7 +12,8 @@ return new class extends Migration {
     {
         Schema::create('ict_tickets', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained('admins')->cascadeOnDelete();
+            $table->integer('user_id');
+            $table->foreign('user_id')->references('id')->on('admins')->cascadeOnDelete();
             $table->string('ticket_number', 20)->unique();
             $table->string('subject', 200);
             $table->enum('category', ['Hardware', 'Software', 'Network', 'Account']);
@@ -20,7 +21,8 @@ return new class extends Migration {
             $table->text('description');
             $table->string('attachment')->nullable();
             $table->enum('status', ['Open', 'In Progress', 'Resolved', 'Closed'])->default('Open');
-            $table->foreignId('assigned_to')->nullable()->constrained('admins')->nullOnDelete();
+            $table->integer('assigned_to')->nullable();
+            $table->foreign('assigned_to')->references('id')->on('admins')->nullOnDelete();
             $table->timestamp('resolved_at')->nullable();
             $table->timestamps();
 

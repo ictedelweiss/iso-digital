@@ -7,7 +7,7 @@ use App\Http\Controllers\MeetingPdfController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
-    return redirect()->to('http://localhost/laravel-app/public/admin/login');
+    return redirect()->to(url('/admin/login'));
 });
 
 // Public Meeting Attendance Routes
@@ -44,41 +44,3 @@ Route::get('/admin/handover-forms/{record}/pdf', [\App\Http\Controllers\Handover
 // Asset Label Print Routes
 Route::get('/admin/assets/print-labels', [\App\Http\Controllers\AssetLabelController::class , 'print'])->name('assets.print.labels');
 Route::get('/admin/assets/{id}/print-label', [\App\Http\Controllers\AssetLabelController::class , 'printSingle'])->name('assets.print.single');
-
-// Debug Email Route - REMOVE AFTER FIXING
-Route::get('/debug-email', function () {
-    try {
-        // Clear Config Cache
-        \Illuminate\Support\Facades\Artisan::call('config:clear');
-
-        $transport = app('mailer')->getSymfonyTransport();
-        $transportClass = get_class($transport);
-
-        $config = config('services.microsoft_graph');
-        $queueConnection = config('queue.default');
-
-        // Attempt to send a raw email synchronously
-        \Illuminate\Support\Facades\Mail::raw('Test Email from ISO Digital Debug Route', function ($message) use ($config) {
-                    $message->to($config['from_address'])
-                        ->subject('Debug Email Test - ' . now());
-                }
-                );
-
-                return response()->json([
-                'status' => 'success',
-                'message' => 'Email sent successfully (synchronously)',
-                'transport' => $transportClass,
-                'queue_connection' => $queueConnection,
-                'mail_config' => $config,
-                ]);
-            }
-            catch (\Exception $e) {
-                return response()->json([
-                'status' => 'error',
-                'message' => $e->getMessage(),
-                'trace' => $e->getTraceAsString(),
-                'transport' => isset($transportClass) ? $transportClass : 'Unknown',
-                'config_dump' => config('services.microsoft_graph')
-                ], 500);
-            }
-        });

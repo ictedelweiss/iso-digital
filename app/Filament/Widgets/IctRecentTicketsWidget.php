@@ -3,28 +3,31 @@
 namespace App\Filament\Widgets;
 
 use App\Models\IctTicket;
-use App\Filament\Pages\IctHelpdeskDashboard;
 use Filament\Tables;
 use Filament\Tables\Table;
+use Filament\Widgets\Concerns\InteractsWithPageFilters;
 use Filament\Widgets\TableWidget as BaseWidget;
+use Carbon\Carbon;
 
 class IctRecentTicketsWidget extends BaseWidget
 {
+    use InteractsWithPageFilters;
+
     protected static ?string $heading = '🎫 Tiket Terbaru';
 
     protected static ?string $pollingInterval = '30s';
 
     protected int|string|array $columnSpan = 'full';
 
-    // Only show on ICT Helpdesk Dashboard page
-    protected static ?string $page = IctHelpdeskDashboard::class;
-
     public function table(Table $table): Table
     {
+        [$startDate, $endDate] = $this->getDateRange();
+
         return $table
             ->query(
             IctTicket::query()
             ->with(['reporter', 'assignee'])
+            ->whereBetween('created_at', [$startDate, $endDate])
             ->latest()
             ->limit(10)
         )
@@ -102,5 +105,26 @@ class IctRecentTicketsWidget extends BaseWidget
         ])
             ->defaultSort('created_at', 'desc')
             ->paginated(false);
+    }
+
+    private function getDateRange(): array
+    {
+        $period = $this->filters['period'] ?? 'this_month';
+        $now = Carbon::now();
+
+        return match ($period) {
+                'today' => [$now->copy()->startOfDay(), $now->copy()->endOfDay()],
+                'this_week' => [$now->copy()->startOfWeek(), $now->copy()->endOfWeek()],
+                'this_month' => [$now->copy()->startOfMonth(), $now->copy()->endOfMonth()],
+                'last_month' => [$now->copy()->subMonth()->startOfMonth(), $now->copy()->subMonth()->endOfMonth()],
+                'last_3_months' => [$now->copy()->subMonths(3)->startOfMonth(), $now->copy()->endOfMonth()],
+                'last_6_months' => [$now->copy()->subMonths(6)->startOfMonth(), $now->copy()->endOfMonth()],
+                'this_year' => [$now->copy()->startOfYear(), $now->copy()->endOfYear()],
+                'custom' => [
+                Carbon::parse($this->filters['start_date'] ?? $now->copy()->startOfMonth()),
+                Carbon::parse($this->filters['end_date'] ?? $now->copy()->endOfMonth())->endOfDay(),
+            ],
+                default => [$now->copy()->startOfMonth(), $now->copy()->endOfMonth()],
+            };
     }
 }

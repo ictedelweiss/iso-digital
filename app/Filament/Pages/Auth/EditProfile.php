@@ -17,17 +17,17 @@ class EditProfile extends BaseEditProfile
             ->schema([
                 Section::make('Profile Information')
                     ->schema([
-                        $this->getNameFormComponent(),
+                        TextInput::make('display_name')
+                            ->label('Nama')
+                            ->placeholder('Nama lengkap untuk tampilan')
+                            ->required()
+                            ->maxLength(255),
                         TextInput::make('ms_email')
                             ->label('Email Address')
                             ->email()
                             ->required()
                             ->maxLength(255)
                             ->unique(ignoreRecord: true),
-                        TextInput::make('display_name')
-                            ->label('Display Name')
-                            ->placeholder('Nama lengkap untuk tampilan')
-                            ->maxLength(255),
                         \Filament\Forms\Components\Select::make('division')
                             ->label('Divisi / Departemen')
                             ->options([
