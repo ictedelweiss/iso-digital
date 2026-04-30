@@ -10,9 +10,11 @@ return new class extends Migration {
      */
     public function up(): void
     {
-        Schema::table('admins', function (Blueprint $table) {
-            $table->string('division')->nullable()->after('display_name');
-        });
+        if (Schema::hasTable('admins') && ! Schema::hasColumn('admins', 'division')) {
+            Schema::table('admins', function (Blueprint $table) {
+                $table->string('division')->nullable()->after('display_name');
+            });
+        }
     }
 
     /**
@@ -20,8 +22,10 @@ return new class extends Migration {
      */
     public function down(): void
     {
-        Schema::table('admins', function (Blueprint $table) {
-            $table->dropColumn('division');
-        });
+        if (Schema::hasTable('admins') && Schema::hasColumn('admins', 'division')) {
+            Schema::table('admins', function (Blueprint $table) {
+                $table->dropColumn('division');
+            });
+        }
     }
 };

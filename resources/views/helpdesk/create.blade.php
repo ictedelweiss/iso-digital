@@ -40,7 +40,7 @@
         @endif
 
         {{-- Form Card --}}
-        <form action="{{ route('helpdesk.store') }}" method="POST" enctype="multipart/form-data"
+        <form action="{{ url()->current() }}" method="POST" enctype="multipart/form-data"
             style="background: rgba(30, 41, 59, 0.8); backdrop-filter: blur(16px); border: 1px solid rgba(148, 163, 184, 0.1); border-radius: 16px; padding: 32px; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);">
             @csrf
 

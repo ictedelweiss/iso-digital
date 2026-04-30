@@ -22,6 +22,11 @@ class CategoryResource extends Resource
 
     protected static ?string $navigationLabel = 'Kategori Asset';
 
+    public static function canViewAny(): bool
+    {
+        return auth()->user()?->hasAccessTo('asset_management') ?? false;
+    }
+
     protected static ?string $modelLabel = 'Kategori Asset';
 
     protected static ?string $pluralModelLabel = 'Kategori Asset';

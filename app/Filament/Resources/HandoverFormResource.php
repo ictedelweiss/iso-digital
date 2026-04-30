@@ -25,6 +25,11 @@ class HandoverFormResource extends Resource
 
     protected static ?int $navigationSort = 3;
 
+    public static function canViewAny(): bool
+    {
+        return auth()->user()?->hasAccessTo('documents') ?? false;
+    }
+
     public static function form(Form $form): Form
     {
         return $form
@@ -83,17 +88,7 @@ class HandoverFormResource extends Resource
                             ->maxLength(255),
                         Forms\Components\Select::make('recipient_department')
                             ->label('Department')
-                            ->options([
-                                'KB/TK' => 'KB/TK',
-                                'SD' => 'SD',
-                                'SMP' => 'SMP',
-                                'PKBM' => 'PKBM',
-                                'ICT' => 'ICT',
-                                'HRD' => 'HRD',
-                                'Finance & Accounting' => 'Finance & Accounting',
-                                'Marketing' => 'Marketing',
-                                'Management' => 'Management',
-                            ])
+                            ->options(array_combine(config('approval.departments', []), config('approval.departments', [])))
                             ->required(),
                     ])->columns(3),
 
@@ -175,12 +170,7 @@ class HandoverFormResource extends Resource
                     ]),
                 Tables\Filters\SelectFilter::make('recipient_department')
                     ->label('Department')
-                    ->options([
-                        'KB/TK' => 'KB/TK',
-                        'SD' => 'SD',
-                        'SMP' => 'SMP',
-                        'ICT' => 'ICT',
-                    ]),
+                    ->options(array_combine(config('approval.departments', []), config('approval.departments', []))),
             ])
             ->actions([
                 Tables\Actions\ViewAction::make(),

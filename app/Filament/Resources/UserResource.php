@@ -25,6 +25,8 @@ class UserResource extends Resource
 
     protected static ?string $navigationGroup = 'Settings';
 
+    protected static ?int $navigationSort = 1;
+
     public static function form(Form $form): Form
     {
         return $form
@@ -59,6 +61,15 @@ class UserResource extends Resource
                             ->default('user')
                             ->required(),
                     ])->columns(2),
+                Forms\Components\Section::make('Hak Akses')
+                    ->description('Atur menu dan modul yang boleh diakses user ini. Jika belum dipilih sama sekali, sistem mengikuti akses lama yang sudah berjalan.')
+                    ->schema([
+                        Forms\Components\CheckboxList::make('access_permissions')
+                            ->label('Modul yang Diizinkan')
+                            ->options(User::permissionOptions())
+                            ->columns(2)
+                            ->bulkToggleable(),
+                    ]),
             ]);
     }
 
@@ -86,6 +97,19 @@ class UserResource extends Resource
                         'primary' => 'admin',
                         'success' => 'superadmin',
                     ]),
+                Tables\Columns\TextColumn::make('access_permissions')
+                    ->label('Hak Akses')
+                    ->formatStateUsing(function ($state, User $record) {
+                        if ($record->access_permissions === null) {
+                            return 'Default legacy access';
+                        }
+
+                        $count = count($record->access_permissions ?? []);
+
+                        return $count . ' modul';
+                    })
+                    ->badge()
+                    ->color(fn(User $record) => $record->access_permissions === null ? 'gray' : 'info'),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime('d M Y H:i')
                     ->sortable()
@@ -126,6 +150,26 @@ class UserResource extends Resource
         ];
     }
 
+    public static function canViewAny(): bool
+    {
+        return auth()->user()?->hasAccessTo('user_management') ?? false;
+    }
+
+    public static function canCreate(): bool
+    {
+        return static::canViewAny();
+    }
+
+    public static function canEdit($record): bool
+    {
+        return static::canViewAny();
+    }
+
+    public static function canDelete($record): bool
+    {
+        return static::canViewAny();
+    }
+
     /**
      * Mutate form data before saving
      */
@@ -135,6 +179,16 @@ class UserResource extends Resource
             $data['password_hash'] = $data['password'];
             unset($data['password']);
         }
+        return $data;
+    }
+
+    public static function mutateFormDataBeforeSave(array $data): array
+    {
+        if (isset($data['password'])) {
+            $data['password_hash'] = $data['password'];
+            unset($data['password']);
+        }
+
         return $data;
     }
 }

@@ -164,17 +164,9 @@
                 @if($isLoggedIn)
                 <option value="{{ $user->division ?: 'Staff' }}" selected>{{ $user->division ?: 'Staff' }}</option>
                 @endif
-                <option value="KB/TK">KB/TK</option>
-                <option value="SD">SD</option>
-                <option value="SMP">SMP</option>
-                <option value="PKBM">PKBM</option>
-                <option value="Customer Service Officer">Customer Service Officer</option>
-                <option value="Finance & Accounting">Finance & Accounting</option>
-                <option value="HRD">HRD</option>
-                <option value="ICT">ICT</option>
-                <option value="Management">Management</option>
-                <option value="Marketing">Marketing</option>
-                <option value="Operator">Operator</option>
+                @foreach(config('approval.departments', []) as $department)
+                <option value="{{ $department }}">{{ $department }}</option>
+                @endforeach
                 <option value="Tamu / Eksternal">Tamu / Eksternal</option>
             </select>
             @if($isLoggedIn)

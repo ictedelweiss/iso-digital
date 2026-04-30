@@ -27,6 +27,11 @@ class MeetingResource extends Resource
 
     protected static ?string $navigationGroup = 'Attendance';
 
+    public static function canViewAny(): bool
+    {
+        return auth()->user()?->hasAccessTo('attendance') ?? false;
+    }
+
     public static function form(Form $form): Form
     {
         return $form

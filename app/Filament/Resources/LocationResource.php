@@ -22,6 +22,11 @@ class LocationResource extends Resource
 
     protected static ?string $navigationLabel = 'Lokasi Asset';
 
+    public static function canViewAny(): bool
+    {
+        return auth()->user()?->hasAccessTo('asset_management') ?? false;
+    }
+
     protected static ?string $modelLabel = 'Lokasi Asset';
 
     protected static ?string $pluralModelLabel = 'Lokasi Asset';

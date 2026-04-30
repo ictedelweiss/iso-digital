@@ -3,6 +3,7 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\IctTicketResource\Pages;
+use App\Models\DivisionCoordinator;
 use App\Models\IctTicket;
 use App\Models\User;
 use Filament\Forms;
@@ -24,6 +25,11 @@ class IctTicketResource extends Resource
     protected static ?string $navigationGroup = 'ICT Helpdesk';
 
     protected static ?int $navigationSort = 1;
+
+    public static function canViewAny(): bool
+    {
+        return auth()->user()?->hasAccessTo('ict_helpdesk') ?? false;
+    }
 
     protected static ?string $recordTitleAttribute = 'subject';
 
@@ -109,7 +115,30 @@ class IctTicketResource extends Resource
 
                         Forms\Components\Select::make('assigned_to')
                             ->label('Ditugaskan ke')
-                            ->relationship('assignee', 'display_name')
+                            ->options(function () {
+                                $ictUserIds = User::query()
+                                    ->where('division', 'ICT')
+                                    ->pluck('id')
+                                    ->all();
+
+                                $ictCoordinatorId = DivisionCoordinator::query()
+                                    ->where('department', 'ICT')
+                                    ->value('user_id');
+
+                                if ($ictCoordinatorId) {
+                                    $ictUserIds[] = $ictCoordinatorId;
+                                }
+
+                                return User::query()
+                                    ->whereIn('id', array_unique($ictUserIds))
+                                    ->orderByRaw('COALESCE(display_name, username)')
+                                    ->get()
+                                    ->mapWithKeys(function (User $user) {
+                                        $label = $user->display_name ?: ucwords(str_replace('.', ' ', $user->username));
+
+                                        return [$user->id => $label];
+                                    });
+                            })
                             ->searchable()
                             ->preload()
                             ->nullable(),

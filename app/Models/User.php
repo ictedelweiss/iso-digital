@@ -31,6 +31,7 @@ class User extends Authenticatable implements FilamentUser
         'username',
         'password_hash',
         'role',
+        'access_permissions',
         'ms_id',
         'ms_email',
         'display_name',
@@ -43,6 +44,13 @@ class User extends Authenticatable implements FilamentUser
      */
     protected $hidden = [
         'password_hash',
+    ];
+
+    /**
+     * The attributes that should be cast.
+     */
+    protected $casts = [
+        'access_permissions' => 'array',
     ];
 
     /**
@@ -104,6 +112,40 @@ class User extends Authenticatable implements FilamentUser
     public function isSuperAdmin(): bool
     {
         return $this->role === 'superadmin';
+    }
+
+    /**
+     * Available access permissions that can be assigned by admin.
+     */
+    public static function permissionOptions(): array
+    {
+        return [
+            'documents' => 'Documents',
+            'attendance' => 'Attendance',
+            'ict_helpdesk' => 'ICT Helpdesk',
+            'asset_management' => 'Asset Management',
+            'hrd_management' => 'HRD Management',
+            'user_management' => 'User Management',
+        ];
+    }
+
+    /**
+     * Determine whether the user can access a specific feature area.
+     * If no explicit permissions have been set yet, preserve legacy behavior.
+     */
+    public function hasAccessTo(string $permission): bool
+    {
+        if ($this->isSuperAdmin()) {
+            return true;
+        }
+
+        $permissions = $this->access_permissions;
+
+        if ($permissions === null) {
+            return true;
+        }
+
+        return in_array($permission, $permissions, true);
     }
 
     /**

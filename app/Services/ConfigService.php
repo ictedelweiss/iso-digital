@@ -2,6 +2,8 @@
 
 namespace App\Services;
 
+use App\Models\DivisionCoordinator;
+
 class ConfigService
 {
     // Test Mode Configuration
@@ -10,7 +12,7 @@ class ConfigService
 
     public static function getCoordinators(): array
     {
-        return [
+        $fallback = [
             'KB/TK' => [
                 'name' => 'Armitridesi Shinta Marito',
                 'email' => 'armitridesi.marito@edelweiss.sch.id',
@@ -56,6 +58,26 @@ class ConfigService
                 'email' => 'juarsa.oemardikarta@edelweiss.sch.id',
             ],
         ];
+
+        if (! class_exists(DivisionCoordinator::class)) {
+            return $fallback;
+        }
+
+        try {
+            $configured = DivisionCoordinator::query()
+                ->get()
+                ->mapWithKeys(fn (DivisionCoordinator $item) => [
+                    $item->department => [
+                        'name' => $item->coordinator_name,
+                        'email' => $item->coordinator_email,
+                    ],
+                ])
+                ->toArray();
+
+            return array_replace($fallback, $configured);
+        } catch (\Throwable $e) {
+            return $fallback;
+        }
     }
 
     public static function getCoordinator(string $department): array

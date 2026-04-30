@@ -41,6 +41,10 @@ return [
             'name' => 'Juarsa Oemardikarta',
             'email' => 'juarsa.oemardikarta@edelweiss.sch.id',
         ],
+        'GA' => [
+            'name' => 'Juarsa Oemardikarta',
+            'email' => 'juarsa.oemardikarta@edelweiss.sch.id',
+        ],
         'Finance & Accounting' => [
             'name' => 'Juarsa Oemardikarta',
             'email' => 'juarsa.oemardikarta@edelweiss.sch.id',
@@ -112,6 +116,7 @@ return [
         'PKBM',
         'ICT',
         'HRD',
+        'GA',
         'Finance & Accounting',
         'Marketing',
         'Management',

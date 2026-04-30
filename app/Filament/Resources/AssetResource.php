@@ -31,6 +31,11 @@ class AssetResource extends Resource
 
     protected static ?string $pluralModelLabel = 'Asset';
 
+    public static function canViewAny(): bool
+    {
+        return auth()->user()?->hasAccessTo('asset_management') ?? false;
+    }
+
     public static function form(Form $form): Form
     {
         return $form

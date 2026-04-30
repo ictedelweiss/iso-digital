@@ -26,6 +26,11 @@ class PurchaseRequisitionResource extends Resource
 
     protected static ?int $navigationSort = 1;
 
+    public static function canViewAny(): bool
+    {
+        return auth()->user()?->hasAccessTo('documents') ?? false;
+    }
+
     public static function form(Form $form): Form
     {
         return $form
@@ -40,19 +45,7 @@ class PurchaseRequisitionResource extends Resource
 
                         Forms\Components\Select::make('department')
                             ->label('Departemen/Unit')
-                            ->options([
-                                'KB/TK' => 'KB/TK',
-                                'SD' => 'SD',
-                                'SMP' => 'SMP',
-                                'PKBM' => 'PKBM',
-                                'Customer Service Officer' => 'Customer Service Officer',
-                                'Finance & Accounting' => 'Finance & Accounting',
-                                'HRD' => 'HRD',
-                                'ICT' => 'ICT',
-                                'Management' => 'Management',
-                                'Marketing' => 'Marketing',
-                                'Operator' => 'Operator',
-                            ])
+                            ->options(array_combine(config('approval.departments', []), config('approval.departments', [])))
                             ->required(),
 
                         Forms\Components\TextInput::make('requester')
@@ -192,19 +185,7 @@ class PurchaseRequisitionResource extends Resource
             ->filters([
                 Tables\Filters\SelectFilter::make('department')
                     ->label('Departemen')
-                    ->options([
-                        'KB/TK' => 'KB/TK',
-                        'SD' => 'SD',
-                        'SMP' => 'SMP',
-                        'PKBM' => 'PKBM',
-                        'Customer Service Officer' => 'Customer Service Officer',
-                        'Finance & Accounting' => 'Finance & Accounting',
-                        'HRD' => 'HRD',
-                        'ICT' => 'ICT',
-                        'Management' => 'Management',
-                        'Marketing' => 'Marketing',
-                        'Operator' => 'Operator',
-                    ]),
+                    ->options(array_combine(config('approval.departments', []), config('approval.departments', []))),
                 Tables\Filters\SelectFilter::make('status')
                     ->options([
                         'Draft' => 'Draft',

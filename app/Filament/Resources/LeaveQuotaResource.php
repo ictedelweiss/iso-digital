@@ -266,15 +266,7 @@ class LeaveQuotaResource extends Resource
      */
     public static function canViewAny(): bool
     {
-        $user = auth()->user();
-        if (!$user) {
-            return false;
-        }
-
-        // Allow admin or HRD (Medina Marpaung)
-        return $user->role === 'admin' ||
-            $user->role === 'superadmin' ||
-            strtolower($user->email) === 'medina.marpaung@edelweiss.sch.id';
+        return auth()->user()?->hasAccessTo('hrd_management') ?? false;
     }
 
     public static function canCreate(): bool

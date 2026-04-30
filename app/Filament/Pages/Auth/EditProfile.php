@@ -30,19 +30,7 @@ class EditProfile extends BaseEditProfile
                             ->unique(ignoreRecord: true),
                         \Filament\Forms\Components\Select::make('division')
                             ->label('Divisi / Departemen')
-                            ->options([
-                                'KB/TK' => 'KB/TK',
-                                'SD' => 'SD',
-                                'SMP' => 'SMP',
-                                'PKBM' => 'PKBM',
-                                'Customer Service Officer' => 'Customer Service Officer',
-                                'Finance & Accounting' => 'Finance & Accounting',
-                                'HRD' => 'HRD',
-                                'ICT' => 'ICT',
-                                'Management' => 'Management',
-                                'Marketing' => 'Marketing',
-                                'Operator' => 'Operator',
-                            ])
+                            ->options(array_combine(config('approval.departments', []), config('approval.departments', [])))
                             ->searchable(),
                     ]),
 

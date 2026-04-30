@@ -33,6 +33,11 @@ class IctHelpdeskDashboard extends Page
 
     protected static string $view = 'filament.pages.ict-helpdesk-dashboard';
 
+    public static function canAccess(): bool
+    {
+        return auth()->user()?->hasAccessTo('ict_helpdesk') ?? false;
+    }
+
     public function filtersForm(Form $form): Form
     {
         return $form
